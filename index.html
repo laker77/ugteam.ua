@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор сесій</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h2>Вставте лог</h2>
+    <textarea id="logInput" rows="10" cols="50" placeholder="Вставте лог тут..."></textarea>
+    <button id="processButton">Обробити</button>
+    
+    <h3>Результати</h3>
+    <table border="1" id="resultTable">
+        <tr>
+            <th>Дата</th>
+            <th>Static ID</th>
+            <th>Час онлайн</th>
+            <th>Дата виходу</th>
+        </tr>
+    </table>
+    <h3 id="totalTime">Загальний час онлайн: 00 год 00 хв 00 сек</h3>
+    
+    <script>
+        document.getElementById("processButton").addEventListener("click", processLog);
+
+        function processLog() {
+            console.log("Кнопка натиснута, обробка почалася.");
+            const logText = document.getElementById('logInput').value.trim();
+            if (!logText) {
+                alert('Будь ласка, вставте лог');
+                return;
+            }
+            
+            let logs = logText.split('\n').filter(line => line.trim() !== '').reverse();
+            const sessions = {};
+            let totalTime = 0;
+            const activeSessions = {};
+            
+            logs.forEach(log => {
+                console.log("Обробка рядка логу:", log);
+                const match = log.match(/\[(\d{2}\.\d{2}\.\d{4}), (\d{2}:\d{2}:\d{2})\] Static ID: (\d+) \| \[characterInit\]: (Авторизував|Деавторизував) персонажа/);
+                if (match) {
+                    const [ , date, time, staticID, event] = match;
+                    const timestamp = new Date(date.split('.').reverse().join('-') + 'T' + time);
+                    
+                    if (!sessions[staticID]) {
+                        sessions[staticID] = {};
+                    }
+                    
+                    if (event === 'Авторизував') {
+                        activeSessions[staticID] = timestamp;
+                        console.log(`Static ID ${staticID} авторизувався о ${time} (${date})`);
+                    } else if (event === 'Деавторизував') {
+                        if (activeSessions[staticID]) {
+                            const startTimestamp = activeSessions[staticID];
+                            const sessionDuration = (timestamp - startTimestamp) / 1000;
+                            
+                            const sessionDate = startTimestamp.toISOString().split('T')[0].split('-').reverse().join('.');
+                            if (!sessions[staticID][sessionDate]) {
+                                sessions[staticID][sessionDate] = { total: 0, logoutDate: timestamp };
+                            }
+                            
+                            sessions[staticID][sessionDate].total += sessionDuration;
+                            totalTime += sessionDuration;
+                            console.log(`Static ID ${staticID} був онлайн ${formatTime(sessionDuration)} до ${timestamp.toISOString().split('T')[0].split('-').reverse().join('.')}`);
+                            
+                            delete activeSessions[staticID];
+                        } else {
+                            console.warn(`Попередження: Static ID ${staticID} вийшов, але не був авторизований перед цим. Ігнорую.`);
+                        }
+                    }
+                } else {
+                    console.warn("Рядок логу не відповідає формату:", log);
+                }
+            });
+            
+            let resultTable = document.getElementById('resultTable');
+            resultTable.innerHTML = '<tr><th>Дата</th><th>Static ID</th><th>Час онлайн</th><th>Дата виходу</th></tr>';
+            
+            for (const staticID in sessions) {
+                for (const date in sessions[staticID]) {
+                    let dailyTotal = sessions[staticID][date].total;
+                    let logoutDate = sessions[staticID][date].logoutDate.toISOString().split('T')[0].split('-').reverse().join('.');
+                    console.log(`Static ID ${staticID} на ${date} був онлайн ${formatTime(dailyTotal)}. Вийшов: ${logoutDate}`);
+                    if (dailyTotal > 0) {
+                        let row = resultTable.insertRow();
+                        row.insertCell().textContent = date;
+                        row.insertCell().textContent = staticID;
+                        row.insertCell().textContent = formatTime(dailyTotal);
+                        row.insertCell().textContent = logoutDate;
+                    }
+                }
+            }
+            
+            document.getElementById('totalTime').innerText = `Загальний час онлайн: ${formatTime(totalTime)}`;
+            console.log("Обробка завершена.");
+        }
+        
+        function formatTime(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${hours.toString().padStart(2, '0')} год ${minutes.toString().padStart(2, '0')} хв ${secs.toString().padStart(2, '0')} сек`;
+        }
+    </script>
+</body>
+</html>
