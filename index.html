@@ -3,107 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Калькулятор сесій</title>
+    <title>Калькулятор сессій</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h2>Вставте лог</h2>
-    <textarea id="logInput" rows="10" cols="50" placeholder="Вставте лог тут..."></textarea>
+    <textarea id="logInput" placeholder="Вставте лог тут..."></textarea>
     <button id="processButton">Обробити</button>
     
     <h3>Результати</h3>
-    <table border="1" id="resultTable">
+    <table id="resultTable">
         <tr>
-            <th>Дата</th>
-            <th>Static ID</th>
+            <th>Дата підключення</th>
+            <th>Ім'я</th>
             <th>Час онлайн</th>
-            <th>Дата виходу</th>
+            <th>Дата відключення</th>
         </tr>
     </table>
-    <h3 id="totalTime">Загальний час онлайн: 00 год 00 хв 00 сек</h3>
+    <h3 id="totalTime">Загальний час онлайн: 00:00:00</h3>
     
     <script>
         document.getElementById("processButton").addEventListener("click", processLog);
 
         function processLog() {
-            console.log("Кнопка натиснута, обробка почалася.");
             const logText = document.getElementById('logInput').value.trim();
             if (!logText) {
                 alert('Будь ласка, вставте лог');
                 return;
             }
-            
+
             let logs = logText.split('\n').filter(line => line.trim() !== '').reverse();
             const sessions = {};
             let totalTime = 0;
             const activeSessions = {};
-            
+
             logs.forEach(log => {
-                console.log("Обробка рядка логу:", log);
-                const match = log.match(/\[(\d{2}\.\d{2}\.\d{4}), (\d{2}:\d{2}:\d{2})\] Static ID: (\d+) \| \[characterInit\]: (Авторизував|Деавторизував) персонажа/);
-                if (match) {
-                    const [ , date, time, staticID, event] = match;
-                    const timestamp = new Date(date.split('.').reverse().join('-') + 'T' + time);
-                    
-                    if (!sessions[staticID]) {
-                        sessions[staticID] = {};
-                    }
-                    
-                    if (event === 'Авторизував') {
-                        activeSessions[staticID] = timestamp;
-                        console.log(`Static ID ${staticID} авторизувався о ${time} (${date})`);
-                    } else if (event === 'Деавторизував') {
-                        if (activeSessions[staticID]) {
-                            const startTimestamp = activeSessions[staticID];
-                            const sessionDuration = (timestamp - startTimestamp) / 1000;
-                            
-                            const sessionDate = startTimestamp.toISOString().split('T')[0].split('-').reverse().join('.');
-                            if (!sessions[staticID][sessionDate]) {
-                                sessions[staticID][sessionDate] = { total: 0, logoutDate: timestamp };
-                            }
-                            
-                            sessions[staticID][sessionDate].total += sessionDuration;
-                            totalTime += sessionDuration;
-                            console.log(`Static ID ${staticID} був онлайн ${formatTime(sessionDuration)} до ${timestamp.toISOString().split('T')[0].split('-').reverse().join('.')}`);
-                            
-                            delete activeSessions[staticID];
+                const connectMatch = log.match(/\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\] (.*?) \/ .* \[player\/connected\]: Гравець підключився до сервера/);
+                const disconnectMatch = log.match(/\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\] (.*?) \[player\/disconnected\]: Гравець відключився від сервера/);
+
+                if (connectMatch) {
+                    const [ , timestamp, playerName] = connectMatch;
+                    activeSessions[playerName] = new Date(timestamp);
+                } else if (disconnectMatch) {
+                    const [ , timestamp, playerName] = disconnectMatch;
+                    if (activeSessions[playerName]) {
+                        let startTimestamp = activeSessions[playerName];
+                        let endTimestamp = new Date(timestamp);
+                        delete activeSessions[playerName];
+
+                        const startDate = formatDateWithoutTime(startTimestamp);
+                        let endDate = formatDateWithoutTime(endTimestamp);
+
+                        // Якщо відключення після 00:00, потрібно створити два записи
+                        if (startDate !== endDate) {
+                            const midNight = new Date(startTimestamp);
+                            midNight.setHours(24, 0, 0, 0);
+
+                            let firstSessionDuration = (midNight - startTimestamp) / 1000;
+                            let secondSessionDuration = (endTimestamp - midNight) / 1000;
+
+                            // Перша строка
+                            if (!sessions[playerName]) sessions[playerName] = [];
+                            sessions[playerName].push({
+                                start: startDate,
+                                end: startDate,
+                                duration: firstSessionDuration,
+                                isNewDay: false
+                            });
+
+                            // Друга строка
+                            let newEndDate = formatDateWithoutTime(endTimestamp);
+                            sessions[playerName].push({
+                                start: newEndDate,
+                                end: newEndDate,
+                                duration: secondSessionDuration,
+                                isNewDay: true
+                            });
+
+                            totalTime += firstSessionDuration + secondSessionDuration;
                         } else {
-                            console.warn(`Попередження: Static ID ${staticID} вийшов, але не був авторизований перед цим. Ігнорую.`);
+                            // Якщо не перехідна доба, просто один запис
+                            let sessionDuration = (endTimestamp - startTimestamp) / 1000;
+
+                            if (!sessions[playerName]) sessions[playerName] = [];
+                            sessions[playerName].push({
+                                start: startDate,
+                                end: endDate,
+                                duration: sessionDuration,
+                                isNewDay: false
+                            });
+
+                            totalTime += sessionDuration;
                         }
                     }
-                } else {
-                    console.warn("Рядок логу не відповідає формату:", log);
                 }
             });
-            
+
             let resultTable = document.getElementById('resultTable');
-            resultTable.innerHTML = '<tr><th>Дата</th><th>Static ID</th><th>Час онлайн</th><th>Дата виходу</th></tr>';
-            
-            for (const staticID in sessions) {
-                for (const date in sessions[staticID]) {
-                    let dailyTotal = sessions[staticID][date].total;
-                    let logoutDate = sessions[staticID][date].logoutDate.toISOString().split('T')[0].split('-').reverse().join('.');
-                    console.log(`Static ID ${staticID} на ${date} був онлайн ${formatTime(dailyTotal)}. Вийшов: ${logoutDate}`);
-                    if (dailyTotal > 0) {
-                        let row = resultTable.insertRow();
-                        row.insertCell().textContent = date;
-                        row.insertCell().textContent = staticID;
-                        row.insertCell().textContent = formatTime(dailyTotal);
-                        row.insertCell().textContent = logoutDate;
+            resultTable.innerHTML = '<tr><th>Дата підключення</th><th>Ім\'я</th><th>Час онлайн</th><th>Дата відключення</th></tr>';
+
+            for (const playerName in sessions) {
+                let mergedSessions = [];
+                sessions[playerName].forEach(session => {
+                    let existingSession = mergedSessions.find(mergedSession => mergedSession.start === session.start && mergedSession.end === session.end);
+                    if (existingSession) {
+                        existingSession.duration += session.duration;
+                    } else {
+                        mergedSessions.push(session);
                     }
-                }
+                });
+
+                mergedSessions.forEach(session => {
+                    let row = resultTable.insertRow();
+                    row.insertCell().textContent = session.start;
+                    row.insertCell().textContent = playerName;
+                    row.insertCell().textContent = formatTime(session.duration);
+                    row.insertCell().textContent = session.end;
+
+                    // Підсвічуємо останній рядок для перехідної доби
+                    if (session.isNewDay) {
+                        row.style.backgroundColor = "#";  // Підсвічуємо салатовим
+                    }
+                });
             }
-            
+
             document.getElementById('totalTime').innerText = `Загальний час онлайн: ${formatTime(totalTime)}`;
-            console.log("Обробка завершена.");
         }
-        
+
+        function formatDateWithoutTime(date) {
+            const year = date.getFullYear();
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const day = date.getDate().toString().padStart(2, '0');
+            return `${year}-${month}-${day}`;  // Формат без часу
+        }
+
         function formatTime(seconds) {
             const hours = Math.floor(seconds / 3600);
             const minutes = Math.floor((seconds % 3600) / 60);
             const secs = Math.floor(seconds % 60);
-            return `${hours.toString().padStart(2, '0')} год ${minutes.toString().padStart(2, '0')} хв ${secs.toString().padStart(2, '0')} сек`;
+            return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
         }
     </script>
 </body>
 </html>
+
