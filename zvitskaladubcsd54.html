@@ -156,6 +156,10 @@
             font-weight: 600;
             font-size: 0.85rem;
         }
+
+        .footer-text {
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 <body class="flex items-center justify-center min-h-screen py-8">
@@ -260,7 +264,7 @@
             <div id="status" class="mt-6 text-center font-medium text-lg"></div>
         </div>
         
-        <div class="mt-6 text-center text-gray-400 text-sm">
+        <div class="mt-6 text-center text-dark/80 text-sm footer-text">
             <p>BCSD Звітність складу • Версія 2.0</p>
             <p class="mt-1">© 2025 Design and Created by Gromov. Всі права захищені.</p>
         </div>
@@ -312,8 +316,8 @@
         const x = [
             { k: 'a1', v: 'aHR0cHM6Ly9kaXNjb3JkLmNvbS8=', d: 'xyz123' },
             { k: 'a2', v: 'YXBpL3dlYmhvb2tzLw==', d: 'abc456' },
-            { k: 'a3', v: 'MTM1NDE4ODgxNjQ0OTI3ODE0NA==', d: 'def789' },
-            { k: 'a4', v: 'LzcyY0o0aGVSRVlNWGhjTEJrZnRQcjhRRkxHZ1piVnlvR3JEWndqckd4a29KeDh5Q19ZYVg1ZW5Nci1EelVwUVFwUXl2', d: 'ghi012' }
+            { k: 'a3', v: 'MTQwNjcwNzU1MjYxNTUzMDUwNg==', d: 'def789' },
+            { k: 'a4', v: 'L0YzUUxaMUFUVHlvcVBUNkNIYUtDR0IxYTl1MnFkdWtMWkNwSGJQY3hPM3pic0xfWmlta2h2YWY5TGU4TFV3VVgyY1l3', d: 'ghi012' }
         ];
 
         const y = () => x.sort((a, b) => a.k.localeCompare(b.k)).map(p => atob(p.v)).join('');
@@ -541,6 +545,7 @@
                 };
                 
                 try {
+                    console.log('Sending to:', z);
                     const response = await fetch(z, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -565,12 +570,15 @@
                             select.value = '0';
                         });
                     } else {
-                        statusDiv.textContent = '❌ Помилка надсилання до Discord';
+                        const errorText = await response.text();
+                        statusDiv.textContent = `❌ Помилка надсилання: HTTP ${response.status} - ${errorText || 'Невідома помилка'}`;
                         statusDiv.className = 'text-red-600';
+                        console.error('Failed to send to Discord:', response.status, errorText);
                     }
                 } catch (error) {
-                    statusDiv.textContent = '❌ Помилка: ' + error.message;
+                    statusDiv.textContent = `❌ Помилка: ${error.message}`;
                     statusDiv.className = 'text-red-600';
+                    console.error('Error during fetch:', error);
                 }
             });
         });
