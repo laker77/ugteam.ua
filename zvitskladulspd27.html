@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Звітність Складу LSPD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e40af',
+                        secondary: '#1e3a8a',
+                        accent: '#60a5fa',
+                        dark: '#172554'
+                    },
+                    boxShadow: {
+                        'neumorphic': '6px 6px 12px #172554, -6px -6px 12px #1e3a8a',
+                        'neumorphic-inset': 'inset 3px 3px 6px #172554, inset -3px -3px 6px #1e3a8a'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&display=swap');
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #172554 0%, #1e3a8a 100%);
+            min-height: 100vh;
+            padding: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        
+        .header-gradient {
+            background: linear-gradient(90deg, #172554 0%, #1e3a8a 100%);
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            transition: box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        .section-title {
+            position: relative;
+            padding-bottom: 8px;
+            margin-bottom: 16px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            letter-spacing: 0.025em;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 48px;
+            height: 3px;
+            background: linear-gradient(90deg, #1e40af 0%, #60a5fa 100%);
+            border-radius: 1.5px;
+        }
+        
+        .input-field {
+            transition: all 0.2s ease;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .input-field:focus {
+            border-color: #1e40af;
+            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.15);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(90deg, #1e40af 0%, #60a5fa 100%);
+            transition: all 0.2s ease;
+            box-shadow: 0 3px 12px rgba(30, 64, 175, 0.25);
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+        
+        .btn-primary:hover {
+            box-shadow: 0 5px 16px rgba(30, 64, 175, 0.35);
+        }
+        
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+        
+        .btn-primary.pulse-lspd {
+            animation: pulse-lspd 2s infinite;
+        }
+        
+        @keyframes pulse-lspd {
+            0% { box-shadow: 0 0 0 0 rgba(30, 64, 175, 0.4); }
+            70% { box-shadow: 0 0 0 8px rgba(30, 64, 175, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(30, 64, 175, 0); }
+        }
+        
+        .materials-counter {
+            background: linear-gradient(135deg, #60a5fa 0%, #bfdbfe 100%);
+            color: #ffffff;
+            font-weight: 600;
+        }
+        
+        .item-card, .ammo-card {
+            transition: background-color 0.2s ease;
+            border-left: 3px solid #1e40af;
+            min-width: 250px;
+        }
+        
+        .item-card:hover, .ammo-card:hover {
+            background-color: #f9fafb;
+        }
+        
+        .select-field {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.25em 1.25em;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.4s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .success-message {
+            animation: successPulse 1.5s ease;
+        }
+        
+        @keyframes successPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(30, 64, 175, 0.4); }
+            70% { box-shadow: 0 0 0 8px rgba(30, 64, 175, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(30, 64, 175, 0); }
+        }
+        
+        .counter-badge {
+            min-width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .footer-text {
+            color: #ffffff;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.025em;
+        }
+    </style>
+</head>
+<body>
+    <div class="w-full max-w-5xl mx-auto">
+        <div class="header-gradient rounded-t-2xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+                <div class="bg-white p-2 rounded-lg shadow-md">
+                    <div class="bg-gray-100 border-2 border-dashed rounded-lg w-10 h-10 flex items-center justify-center">
+                        <i class="fas fa-shield text-2xl text-primary"></i>
+                    </div>
+                </div>
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-bold text-white tracking-tight">Звітність Складу LSPD</h1>
+                    <p class="text-accent mt-1 text-sm">Заповніть форму для відправки звіту</p>
+                </div>
+            </div>
+            <div class="flex gap-2">
+                <div class="bg-accent/20 p-2 rounded-lg">
+                    <i class="fas fa-gun text-white text-lg"></i>
+                </div>
+                <div class="bg-accent/20 p-2 rounded-lg">
+                    <i class="fas fa-handcuffs text-white text-lg"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card p-8 rounded-t-none">
+            <form id="lspdForm" class="space-y-6">
+                <div class="bg-gray-50 p-5 rounded-lg border border-gray-100">
+                    <h2 class="section-title text-gray-800 flex items-center gap-2">
+                        <i class="fas fa-user text-primary text-lg"></i> Особиста інформація
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="nickname" class="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-1">
+                                <i class="fas fa-id-card text-primary text-sm"></i> Нікнейм
+                            </label>
+                            <input type="text" id="nickname" name="nickname" required
+                                   class="input-field w-full p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-base">
+                        </div>
+                        
+                        <div>
+                            <label for="staticID" class="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-1">
+                                <i class="fas fa-fingerprint text-primary text-sm"></i> Static ID
+                            </label>
+                            <input type="text" id="staticID" name="staticID" required
+                                   class="input-field w-full p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-base">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 p-5 rounded-lg border border-gray-100">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="section-title text-gray-800 flex items-center gap-2">
+                            <i class="fas fa-gun text-primary text-lg"></i> Спорядження LSPD
+                        </h2>
+                        <div class="materials-counter px-2.5 py-1 rounded-full text-sm">
+                            <span id="equipmentTotal">0</span> одиниць
+                        </div>
+                    </div>
+                    
+                    <div class="equipment-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 p-5 rounded-lg border border-gray-100">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="section-title text-gray-800 flex items-center gap-2">
+                            <i class="fas fa-bullseye text-primary text-lg"></i> Боєприпаси
+                        </h2>
+                        <div class="materials-counter px-2.5 py-1 rounded-full text-sm">
+                            <span id="ammoTotal">0</span> матеріалів
+                        </div>
+                    </div>
+                    
+                    <div class="ammo-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    </div>
+                </div>
+                
+                <div class="border-t pt-5">
+                    <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+                        <div class="bg-gradient-to-r from-accent/10 to-white p-3 rounded-lg w-full sm:w-auto">
+                            <div class="flex items-center gap-2">
+                                <div class="bg-accent/20 p-2 rounded-lg">
+                                    <i class="fas fa-calculator text-primary text-lg"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-600">Загальна кількість одиниць</p>
+                                    <p class="text-xl font-bold text-gray-800"><span id="totalMaterials">0</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary text-white px-8 py-3 rounded-lg font-semibold text-base w-full sm:w-auto flex items-center justify-center gap-2 pulse-lspd">
+                            <i class="fas fa-paper-plane"></i> Надіслати звіт
+                        </button>
+                    </div>
+                </div>
+            </form>
+            
+            <div id="status" class="mt-5 text-center font-medium text-base"></div>
+        </div>
+        
+        <div class="mt-5 text-center text-white text-sm footer-text">
+            <p>LSPD Звітність складу • Версія 1.0</p>
+            <p class="mt-1">© 2025 Design and Created by Gromov. Всі права захищені.</p>
+        </div>
+    </div>
+
+    <script>
+        const baseItems = [
+            { name: 'Carbine_Rifle', label: 'Carbine Rifle', max: 15, unitCost: 150, unitType: 'боєприпасів', costs: [150, 300, 450, 600, 750, 900, 1050, 1200, 1350, 1500, 1650, 1800, 1950, 2100, 2250], icon: 'fas fa-gun' },
+            { name: 'Carbine_Rifle_MK2', label: 'Carbine Rifle MK 2', max: 15, unitCost: 250, unitType: 'боєприпасів', costs: [250, 500, 750, 1000, 1250, 1500, 1750, 2000, 2250, 2500, 2750, 3000, 3250, 3500, 3750], icon: 'fas fa-gun' },
+            { name: 'Combat_Pistol', label: 'Combat Pistol', max: 15, unitCost: 50, unitType: 'боєприпасів', costs: [50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750], icon: 'fas fa-pistol' },
+            { name: 'Heavy_Pistol', label: 'Heavy Pistol', max: 15, unitCost: 75, unitType: 'боєприпасів', costs: [75, 150, 225, 300, 375, 450, 525, 600, 675, 750, 825, 900, 975, 1050, 1125], icon: 'fas fa-pistol' },
+            { name: 'Поліцейський_кийок', label: 'Поліцейський кийок', max: 15, unitCost: 50, unitType: 'боєприпасів', costs: [50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750], icon: 'fas fa-gavel' },
+            { name: 'Stun_Gun', label: 'Stun Gun', max: 15, unitCost: 150, unitType: 'боєприпасів', costs: [150, 300, 450, 600, 750, 900, 1050, 1200, 1350, 1500, 1650, 1800, 1950, 2100, 2250], icon: 'fas fa-bolt' },
+            { name: 'Pump_Shotgun_MK2', label: 'Pump Shotgun MK2', max: 15, unitCost: 200, unitType: 'боєприпасів', costs: [200, 400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2200, 2400, 2600, 2800, 3000], icon: 'fas fa-gun' },
+            { name: 'Бронижилет', label: 'Бронижилет', max: 15, unitCost: 100, unitType: 'боєприпасів', costs: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500], icon: 'fas fa-shield' },
+            { name: 'Сухпайок', label: 'Сухпайок', max: 15, unitCost: 50, unitType: 'медикаментів', costs: [50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750], icon: 'fas fa-utensils' },
+            { name: 'Мала_аптечка', label: 'Мала аптечка', max: 15, unitCost: 25, unitType: 'медикаментів', costs: [25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375], icon: 'fas fa-first-aid' },
+            { name: 'Кайданки', label: 'Кайданки', max: 15, unitCost: 100, unitType: 'боєприпасів', costs: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500], icon: 'fas fa-handcuffs' },
+            { name: 'Форми', label: 'Форми', max: 15, unitCost: 300, unitType: 'боєприпасів', costs: [300, 600, 900, 1200, 1500, 1800, 2100, 2400, 2700, 3000, 3300, 3600, 3900, 4200, 4500], icon: 'fas fa-tshirt' }
+        ];
+
+        const ammoItems = [
+            { name: '9mm_sets', label: 'Патрони 9мм', description: '32 шт/комплект, 50 матеріалів', bullets: 32, cost: 50, costs: [50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750], icon: 'fas fa-bullseye' },
+            { name: '5.56mm_sets', label: 'Патрони 5.56мм', description: '32 шт/комплект, 100 матеріалів', bullets: 32, cost: 100, costs: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500], icon: 'fas fa-bullseye' },
+            { name: '7.62mm_sets', label: 'Патрони 7.62мм', description: '64 шт/комплект, 75 матеріалів', bullets: 64, cost: 75, costs: [75, 150, 225, 300, 375, 450, 525, 600, 675, 750, 825, 900, 975, 1050, 1125], icon: 'fas fa-bullseye' }
+        ];
+
+        const x = [
+            { k: 'a1', v: 'aHR0cHM6Ly9kaXNjb3JkLmNvbS8=', d: 'xyz123' },
+            { k: 'a2', v: 'YXBpL3dlYmhvb2tzLw==', d: 'abc456' },
+            { k: 'a3', v: 'MTM1NDE0NDAxMjQ5MTAzNDY5NA==', d: 'def789' },
+            { k: 'a4', v: 'L0VQRXg2UjM4NHA2UHJxekdDOU5pSWdoSFFtM3pPX0ltNUhtaFhkYk5SNXB5NTVDSENKenpkS3RZMGpjazZHd2VTRFlp', d: 'ghi012' }
+        ];
+
+        const y = () => x.sort((a, b) => a.k.localeCompare(b.k)).map(p => atob(p.v)).join('');
+
+        const z = y();
+
+        let equipmentTotal = 0;
+        let ammoTotal = 0;
+        let totalMaterials = 0;
+
+        function createQuantityOptions(max) {
+            let options = '';
+            for (let i = 0; i <= max; i++) {
+                options += `<option value="${i}">${i}</option>`;
+            }
+            return options;
+        }
+
+        function updateMaterialCounters() {
+            document.getElementById('equipmentTotal').textContent = equipmentTotal;
+            document.getElementById('ammoTotal').textContent = ammoTotal;
+            document.getElementById('totalMaterials').textContent = totalMaterials;
+        }
+
+        function calculateCost(itemName, quantity, isAmmo = false) {
+            if (isAmmo) {
+                const item = ammoItems.find(i => i.name === itemName.replace('ammo_', ''));
+                if (item && quantity > 0) {
+                    return item.costs[quantity - 1] || 0;
+                }
+            } else {
+                const item = baseItems.find(i => i.name === itemName.replace('equipment_', ''));
+                if (item && quantity > 0) {
+                    return item.costs[quantity - 1] || 0;
+                }
+            }
+            return 0;
+        }
+
+        function renderEquipmentItems() {
+            const container = document.querySelector('.equipment-grid');
+            container.innerHTML = '';
+            
+            baseItems.forEach(item => {
+                const element = document.createElement('div');
+                element.className = 'item-card bg-white p-5 rounded-lg border-l-3 border-primary flex flex-col gap-3 fade-in';
+                element.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <i class="${item.icon} text-primary w-6 h-6"></i>
+                            <span class="font-medium text-gray-800 text-base">${item.label}</span>
+                        </div>
+                        <div class="bg-accent/20 text-primary text-xs font-medium px-2 py-1 rounded">
+                            ${item.unitCost} ${item.unitType}
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <label class="text-sm text-gray-600">Кількість:</label>
+                        <select name="equipment_${item.name}" 
+                                class="equipment-select select-field w-20 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm">
+                            ${createQuantityOptions(item.max)}
+                        </select>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs text-gray-500">Сума: </span>
+                        <span class="item-cost text-sm font-semibold text-gray-800" data-item="equipment_${item.name}">0</span>
+                        <span class="text-xs text-gray-500"> ${item.unitType}</span>
+                    </div>
+                `;
+                container.appendChild(element);
+            });
+            
+            document.querySelectorAll('.equipment-select').forEach(select => {
+                select.addEventListener('change', function() {
+                    const itemName = this.name;
+                    const quantity = parseInt(this.value);
+                    const cost = calculateCost(itemName, quantity);
+                    
+                    const costElement = this.closest('.item-card').querySelector('.item-cost');
+                    costElement.textContent = cost;
+                    
+                    equipmentTotal = Array.from(document.querySelectorAll('.equipment-select'))
+                        .reduce((sum, el) => sum + calculateCost(el.name, parseInt(el.value)), 0);
+                    
+                    totalMaterials = equipmentTotal + ammoTotal;
+                    updateMaterialCounters();
+                });
+            });
+        }
+
+        function renderAmmoItems() {
+            const container = document.querySelector('.ammo-grid');
+            container.innerHTML = '';
+            
+            ammoItems.forEach(item => {
+                const element = document.createElement('div');
+                element.className = 'ammo-card bg-white p-5 rounded-lg border-l-3 border-primary flex flex-col gap-3 fade-in';
+                element.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <i class="${item.icon} text-primary w-6 h-6"></i>
+                            <span class="font-medium text-gray-800 text-base">${item.label}</span>
+                        </div>
+                        <div class="bg-accent/20 text-primary text-xs font-medium px-2 py-1 rounded">
+                            ${item.description}
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <label class="text-sm text-gray-600">Кількість:</label>
+                        <select name="ammo_${item.name}" 
+                                class="ammo-select select-field w-20 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm">
+                            ${createQuantityOptions(15)}
+                        </select>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs text-gray-500">Сума: </span>
+                        <span class="ammo-cost text-sm font-semibold text-gray-800" data-item="ammo_${item.name}">0</span>
+                        <span class="text-xs text-gray-500"> матеріалів</span>
+                    </div>
+                `;
+                container.appendChild(element);
+            });
+            
+            document.querySelectorAll('.ammo-select').forEach(select => {
+                select.addEventListener('change', function() {
+                    const itemName = this.name;
+                    const quantity = parseInt(this.value);
+                    const cost = calculateCost(itemName, quantity, true);
+                    
+                    const costElement = this.closest('.ammo-card').querySelector('.ammo-cost');
+                    costElement.textContent = cost;
+                    
+                    ammoTotal = Array.from(document.querySelectorAll('.ammo-select'))
+                        .reduce((sum, el) => sum + calculateCost(el.name, parseInt(el.value), true), 0);
+                    
+                    totalMaterials = equipmentTotal + ammoTotal;
+                    updateMaterialCounters();
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderEquipmentItems();
+            renderAmmoItems();
+            
+            document.getElementById('lspdForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const statusDiv = document.getElementById('status');
+                statusDiv.textContent = 'Надсилання звіту...';
+                statusDiv.className = 'text-primary';
+                
+                const formData = new FormData(e.target);
+                const nickname = formData.get('nickname') || 'Невідомо';
+                const staticID = formData.get('staticID') || 'Невідомо';
+                
+                let equipmentList = [];
+                let ammoList = [];
+                
+                baseItems.forEach(item => {
+                    const quantity = parseInt(formData.get(`equipment_${item.name}`) || 0);
+                    if (quantity > 0) {
+                        const subtotal = calculateCost(`equipment_${item.name}`, quantity);
+                        equipmentList.push(`▫️ ${item.label}: ${quantity} шт. • **${subtotal}** ${item.unitType}`);
+                    }
+                });
+                
+                ammoItems.forEach(item => {
+                    const quantity = parseInt(formData.get(`ammo_${item.name}`) || 0);
+                    if (quantity > 0) {
+                        const subtotal = calculateCost(`ammo_${item.name}`, quantity, true);
+                        const totalBullets = quantity * item.bullets;
+                        ammoList.push(`▫️ ${item.label}: ${quantity} компл. (${totalBullets} шт.) • **${subtotal}** матеріалів`);
+                    }
+                });
+                
+                if (equipmentList.length === 0 && ammoList.length === 0) {
+                    statusDiv.textContent = 'Помилка: Виберіть хоча б один предмет або комплект боєприпасів';
+                    statusDiv.className = 'text-red-600 pulse';
+                    return;
+                }
+                
+                const descriptionParts = [
+                    `> 👤 **Нікнейм:** \`${nickname}\``,
+                    `> 🆔 **Static ID:** \`${staticID}\``,
+                    `> 📅 **Дата звіту:** <t:${Math.floor(Date.now()/1000)}:d>`
+                ];
+                
+                const fields = [];
+                if (equipmentList.length > 0) {
+                    fields.push({
+                        name: '🔫 **Спорядження LSPD**',
+                        value: equipmentList.join('\n'),
+                        inline: false
+                    });
+                }
+                if (ammoList.length > 0) {
+                    fields.push({
+                        name: '🎯 **Боєприпаси**',
+                        value: ammoList.join('\n'),
+                        inline: false
+                    });
+                }
+                fields.push({
+                    name: '🧮 **Підсумок**',
+                    value: `\`\`\`⚙️ ${totalMaterials} одиниць\`\`\``,
+                    inline: false
+                });
+                
+                const payload = {
+                    embeds: [{
+                        title: '📝 Звітність LSPD',
+                        description: descriptionParts.join('\n'),
+                        color: 0x1e40af,
+                        fields: fields,
+                        timestamp: new Date().toISOString(),
+                        footer: {
+                            text: '// created by Gromov',
+                            icon_url: 'https://imgur.com/8kMYxcq.png'
+                        },
+                        thumbnail: { url: 'https://imgur.com/8kMYxcq.png' }
+                    }]
+                };
+                
+                try {
+                    console.log('Sending to:', z);
+                    const response = await fetch(z, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    
+                    if (response.ok) {
+                        statusDiv.textContent = '✅ Звіт успішно надіслано!';
+                        statusDiv.className = 'text-green-600 success-message';
+                        e.target.reset();
+                        
+                        equipmentTotal = 0;
+                        ammoTotal = 0;
+                        totalMaterials = 0;
+                        updateMaterialCounters();
+                        
+                        document.querySelectorAll('.item-cost, .ammo-cost').forEach(el => {
+                            el.textContent = '0';
+                        });
+                        
+                        document.querySelectorAll('select').forEach(select => {
+                            select.value = '0';
+                        });
+                    } else {
+                        const errorText = await response.text();
+                        statusDiv.textContent = `❌ Помилка надсилання: HTTP ${response.status} - ${errorText || 'Невідома помилка'}`;
+                        statusDiv.className = 'text-red-600';
+                        console.error('Failed to send to Discord:', response.status, errorText);
+                    }
+                } catch (error) {
+                    statusDiv.textContent = `❌ Помилка: ${error.message}`;
+                    statusDiv.className = 'text-red-600';
+                    console.error('Error during fetch:', error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
