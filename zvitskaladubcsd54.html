@@ -11,9 +11,9 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#2e86de',
-                        secondary: '#0c2461',
-                        accent: '#ff9f43',
+                        primary: '#d4a373',
+                        secondary: '#8d5524',
+                        accent: '#e6c4a1',
                         dark: '#1e272e'
                     },
                     boxShadow: {
@@ -29,13 +29,13 @@
         
         body {
             font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(135deg, #0c2461 0%, #1e3799 100%);
+            background: linear-gradient(135deg, #8d5524 0%, #d4a373 100%);
             min-height: 100vh;
             padding: 20px;
         }
         
         .header-gradient {
-            background: linear-gradient(90deg, #0c2461 0%, #1e3799 100%);
+            background: linear-gradient(90deg, #8d5524 0%, #d4a373 100%);
         }
         
         .card {
@@ -63,7 +63,7 @@
             left: 0;
             width: 60px;
             height: 4px;
-            background: linear-gradient(90deg, #2e86de 0%, #0abde3 100%);
+            background: linear-gradient(90deg, #d4a373 0%, #e6c4a1 100%);
             border-radius: 2px;
         }
         
@@ -73,21 +73,21 @@
         }
         
         .input-field:focus {
-            border-color: #2e86de;
-            box-shadow: 0 0 0 3px rgba(46, 134, 222, 0.2);
+            border-color: #d4a373;
+            box-shadow: 0 0 0 3px rgba(212, 163, 115, 0.2);
         }
         
         .btn-primary {
-            background: linear-gradient(90deg, #2e86de 0%, #0abde3 100%);
+            background: linear-gradient(90deg, #d4a373 0%, #e6c4a1 100%);
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(46, 134, 222, 0.3);
+            box-shadow: 0 4px 15px rgba(212, 163, 115, 0.3);
             letter-spacing: 0.5px;
             font-weight: 600;
         }
         
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(46, 134, 222, 0.4);
+            box-shadow: 0 6px 20px rgba(212, 163, 115, 0.4);
         }
         
         .btn-primary:active {
@@ -95,14 +95,14 @@
         }
         
         .materials-counter {
-            background: linear-gradient(135deg, #ff9f43 0%, #ffbe76 100%);
+            background: linear-gradient(135deg, #e6c4a1 0%, #f5d9b8 100%);
             color: #1e272e;
             font-weight: 600;
         }
         
         .item-card {
             transition: all 0.2s ease;
-            border-left: 4px solid #2e86de;
+            border-left: 4px solid #d4a373;
         }
         
         .item-card:hover {
@@ -141,9 +141,9 @@
         }
         
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(46, 134, 222, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(46, 134, 222, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(46, 134, 222, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(212, 163, 115, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(212, 163, 115, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(212, 163, 115, 0); }
         }
         
         .counter-badge {
@@ -160,7 +160,6 @@
 </head>
 <body class="flex items-center justify-center min-h-screen py-8">
     <div class="w-full max-w-4xl mx-4">
-        <!-- Заголовок -->
         <div class="header-gradient rounded-t-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="flex items-center gap-4">
                 <div class="bg-white p-3 rounded-xl shadow-lg">
@@ -170,23 +169,21 @@
                 </div>
                 <div>
                     <h1 class="text-2xl md:text-3xl font-bold text-white">Звітність Складу BCSD</h1>
-                    <p class="text-blue-200 mt-1">Заповніть форму для відправки звіту</p>
+                    <p class="text-accent mt-1">Заповніть форму для відправки звіту</p>
                 </div>
             </div>
             <div class="flex gap-2">
-                <div class="bg-blue-500/20 p-3 rounded-lg">
+                <div class="bg-accent/20 p-3 rounded-lg">
                     <i class="fas fa-shield-alt text-white text-xl"></i>
                 </div>
-                <div class="bg-blue-500/20 p-3 rounded-lg">
+                <div class="bg-accent/20 p-3 rounded-lg">
                     <i class="fas fa-boxes text-white text-xl"></i>
                 </div>
             </div>
         </div>
         
-        <!-- Основной контент -->
         <div class="card p-6 rounded-t-none">
             <form id="warehouseForm" class="space-y-8">
-                <!-- Информация о пользователе -->
                 <div class="bg-gray-50 p-5 rounded-xl border border-gray-100">
                     <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
                         <i class="fas fa-user text-primary"></i> Особиста інформація
@@ -198,7 +195,7 @@
                                 <i class="fas fa-id-card text-primary text-sm"></i> Нікнейм
                             </label>
                             <input type="text" id="nickname" name="nickname" required
-                                   class="input-field w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300">
+                                   class="input-field w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
                         </div>
                         
                         <div>
@@ -206,12 +203,11 @@
                                 <i class="fas fa-fingerprint text-primary text-sm"></i> Static ID
                             </label>
                             <input type="text" id="staticID" name="staticID" required
-                                   class="input-field w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300">
+                                   class="input-field w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
                         </div>
                     </div>
                 </div>
                 
-                <!-- Спорядження та озброєння -->
                 <div class="bg-gray-50 p-5 rounded-xl border border-gray-100">
                     <div class="flex justify-between items-center mb-6">
                         <h2 class="text-xl font-bold text-gray-800 flex items-center gap-2">
@@ -223,11 +219,9 @@
                     </div>
                     
                     <div class="equipment-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <!-- Элементы будут добавлены динамически -->
                     </div>
                 </div>
                 
-                <!-- Боєприпаси -->
                 <div class="bg-gray-50 p-5 rounded-xl border border-gray-100">
                     <div class="flex justify-between items-center mb-6">
                         <h2 class="text-xl font-bold text-gray-800 flex items-center gap-2">
@@ -239,17 +233,15 @@
                     </div>
                     
                     <div class="ammo-grid grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Элементы будут добавлены динамически -->
                     </div>
                 </div>
                 
-                <!-- Итог и кнопка -->
                 <div class="border-t pt-6">
                     <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-                        <div class="bg-gradient-to-r from-blue-50 to-cyan-50 p-4 rounded-xl w-full md:w-auto">
+                        <div class="bg-gradient-to-r from-accent/20 to-white p-4 rounded-xl w-full md:w-auto">
                             <div class="flex items-center gap-3">
-                                <div class="bg-blue-100 p-3 rounded-lg">
-                                    <i class="fas fa-calculator text-blue-600 text-xl"></i>
+                                <div class="bg-accent/30 p-3 rounded-lg">
+                                    <i class="fas fa-calculator text-primary text-xl"></i>
                                 </div>
                                 <div>
                                     <p class="text-sm text-gray-600">Загальна кількість матеріалів</p>
@@ -268,15 +260,13 @@
             <div id="status" class="mt-6 text-center font-medium text-lg"></div>
         </div>
         
-        <!-- Подвал -->
         <div class="mt-6 text-center text-gray-400 text-sm">
-            <p>BCSD Звінтність складу • Версія 2.0</p>
+            <p>BCSD Звітність складу • Версія 2.0</p>
             <p class="mt-1">© 2025 Design and Created by Gromov. Всі права захищені.</p>
         </div>
     </div>
 
     <script>
-        // Данные об оборудовании
         const baseItems = [
             { name: 'Carbine Rifle', label: 'Carbine Rifle', cost: 150, icon: 'fas fa-gun' },
             { name: 'Carbine Rifle MKII', label: 'Carbine Rifle MKII', cost: 250, icon: 'fas fa-gun' },
@@ -292,7 +282,6 @@
             { name: 'Форми', label: 'Форми', cost: 300, icon: 'fas fa-tshirt' }
         ];
 
-        // Данные о боеприпасах
         const ammoItems = [
             { 
                 name: '9mm_sets', 
@@ -320,15 +309,21 @@
             }
         ];
 
-        // Discord вебхук
-        const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1354188816449278144/7GcJ4heREYMXzcLBkftPr8QFLGgZbVyoGrDZwjrGxkoJx8yC_YaX5enMr-DzUpQQpQyv';
+        const x = [
+            { k: 'a1', v: 'aHR0cHM6Ly9kaXNjb3JkLmNvbS8=', d: 'xyz123' },
+            { k: 'a2', v: 'YXBpL3dlYmhvb2tzLw==', d: 'abc456' },
+            { k: 'a3', v: 'MTM1NDE4ODgxNjQ0OTI3ODE0NA==', d: 'def789' },
+            { k: 'a4', v: 'LzcyY0o0aGVSRVlNWGhjTEJrZnRQcjhRRkxHZ1piVnlvR3JEWndqckd4a29KeDh5Q19ZYVg1ZW5Nci1EelVwUVFwUXl2', d: 'ghi012' }
+        ];
 
-        // Переменные для отслеживания материалов
+        const y = () => x.sort((a, b) => a.k.localeCompare(b.k)).map(p => atob(p.v)).join('');
+
+        const z = y();
+
         let equipmentTotal = 0;
         let ammoTotal = 0;
         let totalMaterials = 0;
 
-        // Функция для создания опций количества
         function createQuantityOptions() {
             let options = '';
             for (let i = 0; i <= 10; i++) {
@@ -337,14 +332,12 @@
             return options;
         }
 
-        // Функция для обновления счетчиков материалов
         function updateMaterialCounters() {
             document.getElementById('equipmentTotal').textContent = equipmentTotal;
             document.getElementById('ammoTotal').textContent = ammoTotal;
             document.getElementById('totalMaterials').textContent = totalMaterials;
         }
 
-        // Функция для расчета стоимости
         function calculateCost(itemName, quantity) {
             if (itemName.startsWith('equipment_')) {
                 const item = baseItems.find(i => i.name === itemName.replace('equipment_', ''));
@@ -360,7 +353,6 @@
             return 0;
         }
 
-        // Создание элементов оборудования
         function renderEquipmentItems() {
             const container = document.querySelector('.equipment-grid');
             container.innerHTML = '';
@@ -374,14 +366,14 @@
                             <i class="${item.icon} text-primary"></i>
                             <span class="font-medium text-gray-800">${item.label}</span>
                         </div>
-                        <div class="bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-1 rounded">
+                        <div class="bg-accent/30 text-primary text-xs font-semibold px-2 py-1 rounded">
                             ${item.cost} мат.
                         </div>
                     </div>
                     <div class="flex justify-between items-center">
                         <label class="text-sm text-gray-600">Кількість:</label>
                         <select name="equipment_${item.name}" 
-                                class="equipment-select select-field w-24 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300">
+                                class="equipment-select select-field w-24 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
                             ${createQuantityOptions()}
                         </select>
                     </div>
@@ -394,18 +386,15 @@
                 container.appendChild(element);
             });
             
-            // Добавляем обработчики событий для селектов
             document.querySelectorAll('.equipment-select').forEach(select => {
                 select.addEventListener('change', function() {
                     const itemName = this.name;
                     const quantity = parseInt(this.value);
                     const cost = calculateCost(itemName, quantity);
                     
-                    // Находим элемент для отображения стоимости
                     const costElement = this.closest('.item-card').querySelector('.item-cost');
                     costElement.textContent = cost;
                     
-                    // Обновляем общие суммы
                     equipmentTotal = Array.from(document.querySelectorAll('.equipment-select'))
                         .reduce((sum, el) => sum + calculateCost(el.name, parseInt(el.value)), 0);
                     
@@ -415,7 +404,6 @@
             });
         }
 
-        // Создание элементов боеприпасов
         function renderAmmoItems() {
             const container = document.querySelector('.ammo-grid');
             container.innerHTML = '';
@@ -429,7 +417,7 @@
                             <i class="${item.icon} text-accent"></i>
                             <span class="font-medium text-gray-800">${item.label}</span>
                         </div>
-                        <div class="bg-orange-100 text-orange-800 text-xs font-semibold px-2 py-1 rounded">
+                        <div class="bg-accent/30 text-primary text-xs font-semibold px-2 py-1 rounded">
                             ${item.cost} мат.
                         </div>
                     </div>
@@ -437,7 +425,7 @@
                     <div class="flex justify-between items-center">
                         <label class="text-sm text-gray-600">Комплектів:</label>
                         <select name="ammo_${item.name}" 
-                                class="ammo-select select-field w-24 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300">
+                                class="ammo-select select-field w-24 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
                             ${createQuantityOptions()}
                         </select>
                     </div>
@@ -450,18 +438,15 @@
                 container.appendChild(element);
             });
             
-            // Добавляем обработчики событий для селектов
             document.querySelectorAll('.ammo-select').forEach(select => {
                 select.addEventListener('change', function() {
                     const itemName = this.name;
                     const quantity = parseInt(this.value);
                     const cost = calculateCost(itemName, quantity);
                     
-                    // Находим элемент для отображения стоимости
                     const costElement = this.closest('.item-card').querySelector('.item-cost');
                     costElement.textContent = cost;
                     
-                    // Обновляем общие суммы
                     ammoTotal = Array.from(document.querySelectorAll('.ammo-select'))
                         .reduce((sum, el) => sum + calculateCost(el.name, parseInt(el.value)), 0);
                     
@@ -471,17 +456,15 @@
             });
         }
 
-        // Инициализация формы
         document.addEventListener('DOMContentLoaded', function() {
             renderEquipmentItems();
             renderAmmoItems();
             
-            // Обработка отправки формы
             document.getElementById('warehouseForm').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const statusDiv = document.getElementById('status');
                 statusDiv.textContent = 'Надсилання звіту...';
-                statusDiv.className = 'text-blue-600';
+                statusDiv.className = 'text-primary';
                 
                 const formData = new FormData(e.target);
                 const nickname = formData.get('nickname') || 'Невідомо';
@@ -490,7 +473,6 @@
                 let equipmentList = [];
                 let ammoList = [];
                 
-                // Обработка оборудования
                 baseItems.forEach(item => {
                     const quantity = parseInt(formData.get(`equipment_${item.name}`) || 0);
                     if (quantity > 0) {
@@ -499,7 +481,6 @@
                     }
                 });
                 
-                // Обработка боеприпасов
                 ammoItems.forEach(item => {
                     const setCount = parseInt(formData.get(`ammo_${item.name}`)) || 0;
                     if (setCount > 0) {
@@ -508,14 +489,12 @@
                     }
                 });
                 
-                // Проверка на наличие данных
                 if (equipmentList.length === 0 && ammoList.length === 0) {
                     statusDiv.textContent = 'Помилка: Виберіть хоча б один предмет або боєприпаси';
                     statusDiv.className = 'text-red-600 pulse';
                     return;
                 }
                 
-                // Подготовка данных для Discord
                 const descriptionParts = [
                     `> 👤 **Нікнейм:** \`${nickname}\``,
                     `> 🆔 **Static ID:** \`${staticID}\``,
@@ -550,7 +529,7 @@
                     embeds: [{
                         title: '📝 Звітність BCSD',
                         description: descriptionParts.join('\n'),
-                        color: 0x2e86de,
+                        color: 0xd4a373,
                         fields: fields,
                         timestamp: new Date().toISOString(),
                         footer: {
@@ -562,7 +541,7 @@
                 };
                 
                 try {
-                    const response = await fetch(DISCORD_WEBHOOK_URL, {
+                    const response = await fetch(z, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload)
@@ -573,18 +552,15 @@
                         statusDiv.className = 'text-green-600 success-message';
                         e.target.reset();
                         
-                        // Сброс счетчиков
                         equipmentTotal = 0;
                         ammoTotal = 0;
                         totalMaterials = 0;
                         updateMaterialCounters();
                         
-                        // Сброс значений стоимости
                         document.querySelectorAll('.item-cost').forEach(el => {
                             el.textContent = '0';
                         });
                         
-                        // Сброс селектов
                         document.querySelectorAll('select').forEach(select => {
                             select.value = '0';
                         });
