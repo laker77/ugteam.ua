@@ -892,136 +892,116 @@ async function uploadToImgbb(file) {
     }
 }
 
- const form = document.getElementById('wanted-form');
-    const submitBtn = document.querySelector('.submit-btn');
-    const appsScriptUrl = 'https://script.google.com/macros/s/AKfycby6GxZt7z94s8tc9iWQ5140PtPqVjQseAjEZ7l-rcW4vK-mSPLq_g1NUWiNUhLgZIoV/exec';
+// Обработка отправки формы (ИСПРАВЛЕННЫЙ БЛОК)
+const form = document.getElementById('wanted-form');
+const submitBtn = document.querySelector('.submit-btn');
+const appsScriptUrl = 'https://script.google.com/macros/s/AKfycby6GxZt7z94s8tc9iWQ5140PtPqVjQseAjEZ7l-rcW4vK-mSPLq_g1NUWiNUhLgZIoV/exec';
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-      // Проверка фото
-      if (!photoUpload.files.length) {
+    // Проверка фото
+    if (!photoUpload.files.length) {
         alert('Будь ласка, завантажте фоторобот або фотографію!');
         photoPreview.style.borderColor = '#ff5252';
         photoPreview.style.boxShadow = '0 0 15px rgba(255, 82, 82, 0.5)';
         return;
-      }
+    }
 
-      // Проверка обязательных полей
-      const staticId = document.getElementById('static-id').value;
-      const detainedName = document.getElementById('detained-name').value;
-      const organization = document.getElementById('organization').value;
-      const articles = document.getElementById('articles').value;
+    // Проверка обязательных полей
+    const staticId = document.getElementById('static-id').value;
+    const detainedName = document.getElementById('detained-name').value;
+    const organization = document.getElementById('organization').value;
+    const articles = document.getElementById('articles').value;
 
-      if (!staticId || !detainedName || !organization || !articles) {
+    if (!staticId || !detainedName || !organization || !articles) {
         alert('Будь ласка, заповніть всі обов\'язкові поля!');
         return;
-      }
+    }
 
-      // Эффект отправки
-      const originalText = submitBtn.innerHTML;
-      submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> ВІДПРАВЛЯЄТЬСЯ...';
-      submitBtn.disabled = true;
+    // Эффект отправки
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> ВІДПРАВЛЯЄТЬСЯ...';
+    submitBtn.disabled = true;
 
-      try {
+    try {
         // Загружаем изображение на imgbb
         const file = photoUpload.files[0];
-        
-        // Проверка размера файла
-        const maxSizeMB = 5;
-        if (file.size > maxSizeMB * 1024 * 1024) {
-          throw new Error(`Файл занадто великий! Макс. розмір: ${maxSizeMB}MB`);
-        }
-        
         const imageUrl = await uploadToImgbb(file);
 
-        // Собираем данные для отправки
-        const formData = {
-          staticId: staticId,
-          detainedName: detainedName,
-          organization: organization,
-          articles: articles,
-          bail: document.querySelector('input[name="bail"]:checked')?.value || '',
-          conviction: document.querySelector('input[name="conviction"]:checked')?.value || '',
-          imageUrl: imageUrl
-        };
+        // Собираем данные в формате FormData
+        const formData = new URLSearchParams();
+        formData.append('staticId', staticId);
+        formData.append('detainedName', detainedName);
+        formData.append('organization', organization);
+        formData.append('articles', articles);
+        formData.append('bail', document.querySelector('input[name="bail"]:checked')?.value || '');
+        formData.append('conviction', document.querySelector('input[name="conviction"]:checked')?.value || '');
+        formData.append('imageUrl', imageUrl);
         
         // Добавляем сотрудников
         for (let i = 1; i <= 5; i++) {
-          const id = document.getElementById(`officer-id-${i}`).value;
-          const name = document.getElementById(`officer-name-${i}`).value;
-          if (id && name) {
-            formData[`officer-id-${i}`] = id;
-            formData[`officer-name-${i}`] = name;
-          }
+            const id = document.getElementById(`officer-id-${i}`).value;
+            const name = document.getElementById(`officer-name-${i}`).value;
+            if (id && name) {
+                formData.append(`officer-id-${i}`, id);
+                formData.append(`officer-name-${i}`, name);
+            }
         }
 
-        // Отправка в Apps Script с CORS прокси
-        const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(appsScriptUrl);
-        const response = await fetch(proxyUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(formData)
+        // Отправка в Apps Script
+        const response = await fetch(appsScriptUrl, {
+            method: 'POST',
+            body: formData,
+            redirect: 'follow'
         });
 
         if (!response.ok) {
-          throw new Error(`Помилка мережі: ${response.status} ${response.statusText}`);
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         const result = await response.json();
         console.log('Apps Script response:', result);
 
         if (result.status === 'success') {
-          // Успешная анимация
-          submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> ДАНІ УСПІШНО НАДІСЛАНІ!';
-          submitBtn.style.background = 'linear-gradient(to right, #00b894, #00cec9)';
-          submitBtn.style.boxShadow = '0 0 25px rgba(0, 230, 118, 0.8)';
-          form.style.boxShadow = '0 0 30px rgba(0, 230, 118, 0.6)';
-          form.style.borderColor = 'rgba(0, 230, 118, 0.7)';
+            // Успешная анимация
+            submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> ДАНІ УСПІШНО НАДІСЛАНІ!';
+            submitBtn.style.background = 'linear-gradient(to right, #00b894, #00cec9)';
+            submitBtn.style.boxShadow = '0 0 25px rgba(0, 230, 118, 0.8)';
+            form.style.boxShadow = '0 0 30px rgba(0, 230, 118, 0.6)';
+            form.style.borderColor = 'rgba(0, 230, 118, 0.7)';
 
-          // Обновление счетчика
-          const countElement = document.getElementById('record-count');
-          let count = parseInt(countElement.textContent.replace(',', '')) || 0;
-          count++;
-          countElement.textContent = count.toLocaleString();
+            // Обновление счетчика
+            const countElement = document.getElementById('record-count');
+            let count = parseInt(countElement.textContent.replace(',', '')) || 0;
+            count++;
+            countElement.textContent = count.toLocaleString();
 
-          // Возврат к начальному состоянию
-          setTimeout(() => {
-            submitBtn.innerHTML = originalText;
-            submitBtn.style.background = 'linear-gradient(to right, #0066cc, #0044aa)';
-            submitBtn.style.boxShadow = '0 0 20px rgba(0, 100, 200, 0.5)';
-            submitBtn.disabled = false;
-            form.style.boxShadow = '0 0 25px rgba(0, 100, 200, 0.4)';
-            form.style.borderColor = 'rgba(0, 150, 255, 0.3)';
-            form.reset();
-            previewImg.style.display = 'none';
-            placeholderText.style.display = 'block';
-            photoPreview.style.border = '2px dashed rgba(0, 150, 255, 0.5)';
-            photoPreview.style.boxShadow = '0 0 15px rgba(0, 100, 200, 0.3)';
-            document.getElementById('current-date').textContent = new Date().toLocaleString('uk-UA', options);
-          }, 3000);
+            // Возврат к начальному состоянию
+            setTimeout(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.style.background = 'linear-gradient(to right, #0066cc, #0044aa)';
+                submitBtn.style.boxShadow = '0 0 20px rgba(0, 100, 200, 0.5)';
+                submitBtn.disabled = false;
+                form.style.boxShadow = '0 0 25px rgba(0, 100, 200, 0.4)';
+                form.style.borderColor = 'rgba(0, 150, 255, 0.3)';
+                form.reset();
+                previewImg.style.display = 'none';
+                placeholderText.style.display = 'block';
+                photoPreview.style.border = '2px dashed rgba(0, 150, 255, 0.5)';
+                photoPreview.style.boxShadow = '0 0 15px rgba(0, 100, 200, 0.3)';
+                document.getElementById('current-date').textContent = new Date().toLocaleString('uk-UA', options);
+            }, 3000);
         } else {
-          throw new Error(result.message || 'Невідома помилка сервера');
+            throw new Error(result.message || 'Unknown error from Apps Script');
         }
-      } catch (error) {
-        console.error('Помилка відправки:', error);
-        
-        // Визуальная индикация ошибки
-        const statusIndicator = document.querySelector('.status-indicator');
-        statusIndicator.style.background = '#ff5252';
-        statusIndicator.style.boxShadow = '0 0 8px #ff5252';
-        setTimeout(() => {
-          statusIndicator.style.background = '#00e676';
-          statusIndicator.style.boxShadow = '0 0 8px #00e676';
-        }, 3000);
-        
+    } catch (error) {
+        console.error('Ошибка отправки:', error);
         alert(`Помилка: ${error.message}`);
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
-      }
-    });
+    }
+});
 
 // Эффект при наведении на поля формы
 const inputs = document.querySelectorAll('input, select, textarea');
