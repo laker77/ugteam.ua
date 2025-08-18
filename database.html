@@ -871,20 +871,17 @@ photoUpload.addEventListener('change', (e) => {
 
 // Функция загрузки изображения на imgbb
 async function uploadToImgbb(file) {
-    const apiKey = '23dc9b791442ba3b79d7d364a9c770d2'; // Ваш API-ключ imgbb
+    const apiKey = '23dc9b791442ba3b79d7d364a9c770d2';
     const formData = new FormData();
     formData.append('image', file);
 
     try {
-        console.log('Uploading image to imgbb...');
         const response = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
             method: 'POST',
             body: formData
         });
         const result = await response.json();
-        console.log('imgbb response:', JSON.stringify(result, null, 2));
         if (result.success) {
-            console.log('Image URL:', result.data.url);
             return result.data.url;
         } else {
             throw new Error(`Ошибка загрузки изображения на imgbb: ${result.status_text || 'Unknown error'}`);
@@ -895,10 +892,10 @@ async function uploadToImgbb(file) {
     }
 }
 
-// Обработка отправки формы
+// Обработка отправки формы (ИСПРАВЛЕННЫЙ БЛОК)
 const form = document.getElementById('wanted-form');
 const submitBtn = document.querySelector('.submit-btn');
-const appsScriptUrl = 'https://script.google.com/macros/s/AKfycby42zVg2OCwuSdrUAo7KT5SwDuTjg-UrTNsgZyhhb9g52oKrD62uTQjCwfzSNsbqN6C/exec'; // Ваш URL Apps Script
+const appsScriptUrl = 'https://script.google.com/macros/s/AKfycby6GxZt7z94s8tc9iWQ5140PtPqVjQseAjEZ7l-rcW4vK-mSPLq_g1NUWiNUhLgZIoV/exec';
 
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -929,61 +926,42 @@ form.addEventListener('submit', async (e) => {
 
     try {
         // Загружаем изображение на imgbb
-        console.log('Starting image upload to imgbb...');
         const file = photoUpload.files[0];
         const imageUrl = await uploadToImgbb(file);
 
-        // Собираем данные формы
-        const formData = {
-            staticId,
-            detainedName,
-            organization,
-            officers: [
-                {
-                    id: document.getElementById('officer-id-1').value,
-                    name: document.getElementById('officer-name-1').value
-                },
-                {
-                    id: document.getElementById('officer-id-2').value || null,
-                    name: document.getElementById('officer-name-2').value || null
-                },
-                {
-                    id: document.getElementById('officer-id-3').value || null,
-                    name: document.getElementById('officer-name-3').value || null
-                },
-                {
-                    id: document.getElementById('officer-id-4').value || null,
-                    name: document.getElementById('officer-name-4').value || null
-                },
-                {
-                    id: document.getElementById('officer-id-5').value || null,
-                    name: document.getElementById('officer-name-5').value || null
-                }
-            ].filter(officer => officer.id && officer.name),
-            articles,
-            bail: document.querySelector('input[name="bail"]:checked')?.value || '',
-            conviction: document.querySelector('input[name="conviction"]:checked')?.value || '',
-            imageUrl
-        };
-
-        console.log('Form Data:', JSON.stringify(formData, null, 2));
+        // Собираем данные в формате FormData
+        const formData = new URLSearchParams();
+        formData.append('staticId', staticId);
+        formData.append('detainedName', detainedName);
+        formData.append('organization', organization);
+        formData.append('articles', articles);
+        formData.append('bail', document.querySelector('input[name="bail"]:checked')?.value || '');
+        formData.append('conviction', document.querySelector('input[name="conviction"]:checked')?.value || '');
+        formData.append('imageUrl', imageUrl);
+        
+        // Добавляем сотрудников
+        for (let i = 1; i <= 5; i++) {
+            const id = document.getElementById(`officer-id-${i}`).value;
+            const name = document.getElementById(`officer-name-${i}`).value;
+            if (id && name) {
+                formData.append(`officer-id-${i}`, id);
+                formData.append(`officer-name-${i}`, name);
+            }
+        }
 
         // Отправка в Apps Script
-        console.log('Sending data to Apps Script:', appsScriptUrl);
         const response = await fetch(appsScriptUrl, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData),
-            mode: 'cors',
-            redirect: 'follow' // Добавляем redirect: follow для обработки перенаправлений
+            body: formData,
+            redirect: 'follow'
         });
 
         if (!response.ok) {
-            throw new Error(`Apps Script request failed with status ${response.status}: ${response.statusText}`);
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         const result = await response.json();
-        console.log('Apps Script response:', JSON.stringify(result, null, 2));
+        console.log('Apps Script response:', result);
 
         if (result.status === 'success') {
             // Успешная анимация
@@ -1019,7 +997,7 @@ form.addEventListener('submit', async (e) => {
         }
     } catch (error) {
         console.error('Ошибка отправки:', error);
-        alert(`Помилка: ${error.message}. Перевірте налаштування Google Apps Script або розмістіть сайт на сервері.`);
+        alert(`Помилка: ${error.message}`);
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
     }
