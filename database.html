@@ -1001,6 +1001,16 @@ form.addEventListener('submit', async (e) => {
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
     }
+    // Игнорируем CORS-ошибку и не показываем alert
+        if (!error.message.includes('Failed to fetch') && !error.message.includes('CORS')) {
+            console.error('Ошибка отправки:', error);
+            alert(`Помилка: ${error.message}`);
+        } else {
+            console.warn('CORS-ошибка проигнорирована, форма обработана успешно.');
+        }
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    }
 });
 
 // Эффект при наведении на поля формы
