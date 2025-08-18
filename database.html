@@ -974,7 +974,8 @@ form.addEventListener('submit', async (e) => {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData),
-            mode: 'cors' // Явно указываем режим CORS
+            mode: 'cors',
+            redirect: 'follow' // Добавляем redirect: follow для обработки перенаправлений
         });
 
         if (!response.ok) {
@@ -1018,7 +1019,7 @@ form.addEventListener('submit', async (e) => {
         }
     } catch (error) {
         console.error('Ошибка отправки:', error);
-        alert(`Помилка: ${error.message}`);
+        alert(`Помилка: ${error.message}. Перевірте налаштування Google Apps Script або розмістіть сайт на сервері.`);
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
     }
