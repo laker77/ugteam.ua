@@ -779,12 +779,17 @@
 
 <script>
 function deobfuscate(encoded, key) {
-    let decoded = atob(encoded);
-    let result = '';
-    for (let i = 0; i < decoded.length; i++) {
-        result += String.fromCharCode(decoded.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+    try {
+        let decoded = atob(encoded);
+        let result = '';
+        for (let i = 0; i < decoded.length; i++) {
+            result += String.fromCharCode(decoded.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+        }
+        return result;
+    } catch (e) {
+        console.error('Помилка розшифрування:', e);
+        throw new Error('Невалідний зашифрований ключ');
     }
-    return result;
 }
 
 const now = new Date();
@@ -843,7 +848,7 @@ photoUpload.addEventListener('change', (e) => {
             alert('Будь ласка, виберіть файл зображення (JPEG, PNG тощо)!');
             return;
         }
-        if (file.size > 32 * 1024 *  ascended
+        if (file.size > 32 * 1024 * 1024) {
             alert('Розмір файлу перевищує 32 МБ!');
             return;
         }
@@ -868,6 +873,7 @@ photoUpload.addEventListener('change', (e) => {
 
 async function uploadToImgbb(file) {
     const apiKey = deobfuscate('MjdjZTliNzkxNDQyYmEzYjc5ZDdkMzY0YTljNzcwZDI=', 'xai_secure_key');
+    console.log('Розшифрований API-ключ:', apiKey);
     if (!apiKey || apiKey.length !== 32) {
         throw new Error('Невалідний API-ключ imgbb');
     }
