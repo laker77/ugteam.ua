@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>База Даних UG</title>
+    <title>Data Base UG</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -26,9 +26,10 @@
             position: relative;
             padding: 20px;
             line-height: 1.6;
-            overflow-y: auto;
+            overflow-y: auto; /* Дозволяємо вертикальну прокрутку */
         }
         
+        /* Матричний фон */
         #matrix-container {
             position: fixed;
             top: 0;
@@ -45,6 +46,7 @@
             height: 100%;
         }
         
+        /* Скануюча лінія */
         .scan-line {
             position: fixed;
             top: 0;
@@ -71,6 +73,7 @@
             z-index: 2;
         }
         
+        /* Заголовок */
         .header {
             text-align: center;
             padding: 30px 0;
@@ -121,6 +124,7 @@
             padding: 0 20px;
         }
         
+        /* Секретні маркери */
         .classified-badge {
             position: absolute;
             top: 20px;
@@ -150,6 +154,7 @@
             50% { opacity: 0.3; }
         }
         
+        /* Форма */
         .form-container {
             background: rgba(10, 20, 40, 0.85);
             border: 1px solid rgba(0, 150, 255, 0.3);
@@ -416,6 +421,7 @@
             transform: translateY(1px);
         }
         
+        /* Статус бар */
         .status-bar {
             display: flex;
             justify-content: space-between;
@@ -465,6 +471,7 @@
             gap: 8px;
         }
         
+        /* Анімації */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -474,6 +481,7 @@
             animation: fadeIn 0.7s ease-out;
         }
         
+        /* Ефект термінала */
         .console-effect::after {
             content: "▋";
             animation: blink-caret 0.75s step-end infinite;
@@ -484,6 +492,7 @@
             50% { opacity: 1; }
         }
         
+        /* Адаптивність */
         @media (max-width: 768px) {
             .header h1 {
                 font-size: 2.3rem;
@@ -514,6 +523,7 @@
             }
         }
         
+        /* Спеціальні стилі для полів учасників */
         .participant-row {
             display: flex;
             gap: 15px;
@@ -541,6 +551,7 @@
             color: #00aaff;
         }
         
+        /* Логотипи організацій */
         .agency-logo {
             display: inline-block;
             width: 40px;
@@ -553,6 +564,7 @@
             font-weight: bold;
         }
         
+        /* Ефект термінала */
         .terminal-text {
             font-family: 'Roboto Mono', monospace;
             background: rgba(0, 0, 0, 0.7);
@@ -563,6 +575,7 @@
             border: 1px solid rgba(0, 150, 255, 0.2);
         }
         
+        /* Покращена матриця */
         .matrix-char {
             position: absolute;
             color: rgba(0, 255, 0, 0.7);
@@ -580,11 +593,11 @@
     
     <div class="container">
         <header class="header">
-            <div class="classified-badge"><i class="fas fa-lock"></i> Конфіденційно</div>
-            <div class="classified-badge"><i class="fas fa-user-shield"></i> Тільки для правоохоронних органів</div>
+            <div class="classified-badge"><i class="fas fa-lock"></i> Confidential</div>
+            <div class="classified-badge"><i class="fas fa-user-shield"></i> Law Enforcement Use Only</div>
             
-            <h1>База Даних</h1>
-            <p>Форма для внесення даних до централізованої системи обліку осіб, підозрюваних у скоєнні злочинів</p>
+            <h1>Data Base</h1>
+            <p>Форма подання даних до централізованої системи обліку осіб, які підозрюються у вчиненні злочинів</p>
             
             <div style="margin-top: 20px; display: flex; justify-content: center; gap: 30px;">
                 <div class="agency-logo">LSPD</div>
@@ -594,8 +607,9 @@
         </header>
         
         <form id="wanted-form" class="form-container">
+            <!-- Секція 1: Основна інформація -->
             <div class="form-section">
-                <h2 class="form-title"><i class="fas fa-id-card"></i> Основні дані</h2>
+                <h2 class="form-title"><i class="fas fa-id-card"></i> ОСНОВНІ ДАНІ</h2>
                 
                 <div class="form-row">
                     <div class="form-group">
@@ -615,16 +629,17 @@
                     <label for="organization"><i class="fas fa-building"></i> Організація</label>
                     <select id="organization" required>
                         <option value="">Оберіть організацію</option>
-                        <option value="LSPD">LSPD (Поліцейський департамент Лос-Сантоса)</option>
-                        <option value="BCSD">BCSD (Шерифський департамент округу Блейн)</option>
-                        <option value="FIB">FIB (Федеральне бюро розслідувань)</option>
+                        <option value="LSPD">LSPD (Los Santos Police Department)</option>
+                        <option value="BCSD">BCSD (Blaine County Sheriff's Department)</option>
+                        <option value="FIB">FIB (Federal Investigation Bureau)</option>
                     </select>
-                    <div class="terminal-text">Оберіть організацію, яка проводила процесуальні дії</div>
+                    <div class="terminal-text">Оберіть організацію яка проводила процесуальні дії</div>
                 </div>
             </div>
             
+            <!-- Секція 2: Учасники процесуальних дій -->
             <div class="form-section">
-                <h2 class="form-title"><i class="fas fa-users"></i> Учасники процесуальних дій</h2>
+                <h2 class="form-title"><i class="fas fa-users"></i> УЧАСНИКИ ПРОЦЕСУАЛЬНИХ ДІЙ</h2>
                 
                 <div class="participant-title">
                     <i class="fas fa-user-shield"></i> Співробітник 1 (обов'язковий)
@@ -697,13 +712,14 @@
                 </div>
             </div>
             
+            <!-- Секція 3: Статті та інформація -->
             <div class="form-section">
-                <h2 class="form-title"><i class="fas fa-gavel"></i> Інкриміновані статті та додаткова інформація</h2>
+                <h2 class="form-title"><i class="fas fa-gavel"></i> ІНКРИМІНОВАНІ СТАТТІ ТА ДОДАТКОВА ІНФОРМАЦІЯ</h2>
                 
                 <div class="form-group">
                     <label for="articles"><i class="fas fa-book"></i> Статті, що інкримінуються</label>
                     <textarea id="articles" placeholder="Вкажіть статті кримінального кодексу" required></textarea>
-                    <div class="terminal-text">Формат: ст. 187 КК, ст. 14 АК</div>
+                    <div class="terminal-text">Формат: ст. 187 КУ, ст.14 АК </div>
                 </div>
                 
                 <div class="form-row">
@@ -737,28 +753,30 @@
                 </div>
             </div>
             
+            <!-- Секція 4: Фоторобот -->
             <div class="form-section">
-                <h2 class="form-title"><i class="fas fa-camera"></i> Фоторобот або фотографія</h2>
+                <h2 class="form-title"><i class="fas fa-camera"></i> ФОТОРОБОТ АБО ФОТОГРАФІЯ</h2>
                 
                 <div class="photo-upload">
                     <div class="photo-preview" id="photo-preview">
                         <div class="placeholder-text">
                             <i class="fas fa-user-secret fa-3x"></i><br>
-                            Фоторобот<br>
-                            Рекомендований розмір: 220x280 пікселів
+                            ФОТОРОБОТ<br>
+                            Рекомендований розмір: 220x280 px
                         </div>
                         <img id="preview-img" src="" alt="Попередній перегляд">
                     </div>
                     <input type="file" id="photo-upload" accept="image/*" style="display: none;">
                     <button type="button" class="upload-btn" id="upload-trigger">
-                        <i class="fas fa-cloud-upload-alt"></i> Завантажити зображення
+                        <i class="fas fa-cloud-upload-alt"></i> ЗАВАНТАЖИТИ ЗОБРАЖЕННЯ
                     </button>
                 </div>
             </div>
             
+            <!-- Кнопка відправки -->
             <div class="submit-section">
                 <button type="submit" class="submit-btn">
-                    <i class="fas fa-paper-plane"></i> Надіслати до бази даних
+                    <i class="fas fa-paper-plane"></i> НАДІСЛАТИ ДО БАЗИ ДАНИХ
                 </button>
             </div>
         </form>
@@ -766,7 +784,7 @@
         <div class="status-bar">
             <div class="system-status">
                 <div class="status-indicator"></div>
-                <span>Система активна | Захищено AES-256</span>
+                <span>СИСТЕМА АКТИВНА | ЗАХИЩЕНО AES-256</span>
             </div>
             <div class="record-count">
                 <i class="fas fa-database"></i> Записів у базі: <span id="record-count">2,487</span>
@@ -778,24 +796,11 @@
     </div>
 
 <script>
-function deobfuscate(encoded, key) {
-    try {
-        let decoded = atob(encoded);
-        let result = '';
-        for (let i = 0; i < decoded.length; i++) {
-            result += String.fromCharCode(decoded.charCodeAt(i) ^ key.charCodeAt(i % key.length));
-        }
-        return result;
-    } catch (e) {
-        console.error('Помилка розшифрування:', e);
-        throw new Error('Невалідний зашифрований ключ');
-    }
-}
-
 const now = new Date();
 const options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' };
 document.getElementById('current-date').textContent = now.toLocaleString('uk-UA', options);
 
+// Матричний фон
 const matrixContainer = document.getElementById('matrix-container');
 const canvas = document.getElementById('matrix-canvas');
 const ctx = canvas.getContext('2d');
@@ -831,6 +836,7 @@ function drawMatrix() {
 }
 const matrixInterval = setInterval(drawMatrix, 50);
 
+// Обробник завантаження фото
 const uploadTrigger = document.getElementById('upload-trigger');
 const photoUpload = document.getElementById('photo-upload');
 const previewImg = document.getElementById('preview-img');
@@ -844,14 +850,6 @@ uploadTrigger.addEventListener('click', () => {
 photoUpload.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (file) {
-        if (!file.type.startsWith('image/')) {
-            alert('Будь ласка, виберіть файл зображення (JPEG, PNG тощо)!');
-            return;
-        }
-        if (file.size > 32 * 1024 * 1024) {
-            alert('Розмір файлу перевищує 32 МБ!');
-            return;
-        }
         const reader = new FileReader();
         reader.onload = function(event) {
             previewImg.src = event.target.result;
@@ -871,61 +869,67 @@ photoUpload.addEventListener('change', (e) => {
     }
 });
 
+// Функция загрузки изображения на imgbb
 async function uploadToImgbb(file) {
-    const apiKey = deobfuscate('MjdjZTliNzkxNDQyYmEzYjc5ZDdkMzY0YTljNzcwZDI=', 'xai_secure_key');
-    console.log('Розшифрований API-ключ:', apiKey);
-    if (!apiKey || apiKey.length !== 32) {
-        throw new Error('Невалідний API-ключ imgbb');
-    }
+    const apiKey = '23dc9b791442ba3b79d7d364a9c770d2';
     const formData = new FormData();
     formData.append('image', file);
+
     try {
         const response = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
             method: 'POST',
             body: formData
         });
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
-            throw new Error(`Помилка сервера imgbb: ${errorData.status_text || `HTTP ${response.status}`}`);
-        }
         const result = await response.json();
         if (result.success) {
             return result.data.url;
         } else {
-            throw new Error(`Помилка завантаження: ${result.status_text || 'Невідома помилка'}`);
+            throw new Error(`Ошибка загрузки изображения на imgbb: ${result.status_text || 'Unknown error'}`);
         }
     } catch (error) {
-        console.error('Помилка завантаження зображення:', error, { status: response?.status, statusText: response?.statusText });
-        throw new Error(`Помилка завантаження зображення: ${error.message}`);
+        console.error('Ошибка загрузки изображения:', error);
+        throw new Error(`Ошибка загрузки изображения: ${error.message}`);
     }
 }
 
+// Обработка отправки формы
 const form = document.getElementById('wanted-form');
 const submitBtn = document.querySelector('.submit-btn');
-const appsScriptUrl = deobfuscate('aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J5Nkd4WnQ3ejk0czh0YzlpV1E1MTQwUHRQcVZqUXNlQWpFWjdsLXJjVzR2Sy1tU1BMcV9nMU5VV2lOVWhMZ1pJb1YvZXhlYw==', 'xai_secure_key');
+const appsScriptUrl = 'https://script.google.com/macros/s/AKfycby6GxZt7z94s8tc9iWQ5140PtPqVjQseAjEZ7l-rcW4vK-mSPLq_g1NUWiNUhLgZIoV/exec';
 
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
+
+    // Проверка фото
     if (!photoUpload.files.length) {
         alert('Будь ласка, завантажте фоторобот або фотографію!');
         photoPreview.style.borderColor = '#ff5252';
         photoPreview.style.boxShadow = '0 0 15px rgba(255, 82, 82, 0.5)';
         return;
     }
+
+    // Проверка обязательных полей
     const staticId = document.getElementById('static-id').value;
     const detainedName = document.getElementById('detained-name').value;
     const organization = document.getElementById('organization').value;
     const articles = document.getElementById('articles').value;
+
     if (!staticId || !detainedName || !organization || !articles) {
-        alert('Будь ласка, заповніть усі обов\'язкові поля!');
+        alert('Будь ласка, заповніть всі обов\'язкові поля!');
         return;
     }
+
+    // Эффект отправки
     const originalText = submitBtn.innerHTML;
-    submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Відправляється...';
+    submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> ВІДПРАВЛЯЄТЬСЯ...';
     submitBtn.disabled = true;
+
     try {
+        // Загружаем изображение на imgbb
         const file = photoUpload.files[0];
         const imageUrl = await uploadToImgbb(file);
+
+        // Собираем данные в формате FormData
         const formData = new URLSearchParams();
         formData.append('staticId', staticId);
         formData.append('detainedName', detainedName);
@@ -934,6 +938,8 @@ form.addEventListener('submit', async (e) => {
         formData.append('bail', document.querySelector('input[name="bail"]:checked')?.value || '');
         formData.append('conviction', document.querySelector('input[name="conviction"]:checked')?.value || '');
         formData.append('imageUrl', imageUrl);
+        
+        // Добавляем сотрудников
         for (let i = 1; i <= 5; i++) {
             const id = document.getElementById(`officer-id-${i}`).value;
             const name = document.getElementById(`officer-name-${i}`).value;
@@ -942,29 +948,41 @@ form.addEventListener('submit', async (e) => {
                 formData.append(`officer-name-${i}`, name);
             }
         }
-        console.log('Дані форми:', Object.fromEntries(formData));
+
+        // Логируем данные для отладки
+        console.log('Form Data:', Object.fromEntries(formData));
+
+        // Отправка в Apps Script
         const response = await fetch(appsScriptUrl, {
             method: 'POST',
             body: formData,
             redirect: 'follow'
         }).catch(error => {
+            // Игнорируем CORS-ошибку, предполагая успешную отправку
             if (error.message.includes('Failed to fetch') || error.message.includes('CORS')) {
-                console.warn('Помилка CORS проігнорована, дані відправлено успішно.');
-                return { ok: true, json: async () => ({ status: 'success', message: 'Дані успішно надіслано!' }) };
+                console.warn('CORS-ошибка проигнорирована, данные отправлены успешно.');
+                return { ok: true, json: async () => ({ status: 'success', message: 'Дані успішно надіслані!' }) };
             }
-            throw error;
+            throw error; // Пробрасываем другие ошибки
         });
+
         const result = await response.json();
-        console.log('Відповідь Apps Script:', result);
-        submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> Дані успішно надіслано!';
+        console.log('Apps Script response:', result);
+
+        // Успешная анимация
+        submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> ДАНІ УСПІШНО НАДІСЛАНІ!';
         submitBtn.style.background = 'linear-gradient(to right, #00b894, #00cec9)';
         submitBtn.style.boxShadow = '0 0 25px rgba(0, 230, 118, 0.8)';
         form.style.boxShadow = '0 0 30px rgba(0, 230, 118, 0.6)';
         form.style.borderColor = 'rgba(0, 230, 118, 0.7)';
+
+        // Обновление счетчика
         const countElement = document.getElementById('record-count');
         let count = parseInt(countElement.textContent.replace(',', '')) || 0;
         count++;
         countElement.textContent = count.toLocaleString();
+
+        // Возврат к начальному состоянию
         setTimeout(() => {
             submitBtn.innerHTML = originalText;
             submitBtn.style.background = 'linear-gradient(to right, #0066cc, #0044aa)';
@@ -980,22 +998,28 @@ form.addEventListener('submit', async (e) => {
             document.getElementById('current-date').textContent = new Date().toLocaleString('uk-UA', options);
         }, 3000);
     } catch (error) {
+        // Обработка ошибок, кроме CORS
         if (!error.message.includes('Failed to fetch') && !error.message.includes('CORS')) {
-            console.error('Помилка відправки:', error);
+            console.error('Ошибка отправки:', error);
             alert(`Помилка: ${error.message}`);
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
         } else {
-            console.warn('Помилка CORS проігнорована, форму оброблено успішно.');
-            submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> Дані успішно надіслано!';
+            console.warn('CORS-ошибка проигнорирована, форма обработана успешно.');
+            // Выполняем успешную анимацию и сброс формы
+            submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> ДАНІ УСПІШНО НАДІСЛАНІ!';
             submitBtn.style.background = 'linear-gradient(to right, #00b894, #00cec9)';
             submitBtn.style.boxShadow = '0 0 25px rgba(0, 230, 118, 0.8)';
             form.style.boxShadow = '0 0 30px rgba(0, 230, 118, 0.6)';
             form.style.borderColor = 'rgba(0, 230, 118, 0.7)';
+
+            // Обновление счетчика
             const countElement = document.getElementById('record-count');
             let count = parseInt(countElement.textContent.replace(',', '')) || 0;
             count++;
             countElement.textContent = count.toLocaleString();
+
+            // Возврат к начальному состоянию
             setTimeout(() => {
                 submitBtn.innerHTML = originalText;
                 submitBtn.style.background = 'linear-gradient(to right, #0066cc, #0044aa)';
@@ -1014,6 +1038,7 @@ form.addEventListener('submit', async (e) => {
     }
 });
 
+// Эффект при наведении на поля формы
 const inputs = document.querySelectorAll('input, select, textarea');
 inputs.forEach(input => {
     input.addEventListener('focus', () => {
@@ -1026,6 +1051,7 @@ inputs.forEach(input => {
     });
 });
 
+// Анимация для заголовков участников
 const participantTitles = document.querySelectorAll('.participant-title');
 participantTitles.forEach(title => {
     title.addEventListener('mouseenter', () => {
@@ -1036,6 +1062,7 @@ participantTitles.forEach(title => {
     });
 });
 
+// Оптимизация матричного фона при прокрутке
 let lastScrollPosition = 0;
 let animationRunning = true;
 window.addEventListener('scroll', () => {
