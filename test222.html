@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Звітність Складу LSPD</title>
+    <title>Звітність Складу Government</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
@@ -11,14 +11,15 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#1e40af',
-                        secondary: '#1e3a8a',
-                        accent: '#60a5fa',
-                        dark: '#172554'
+                        primary: '#4b5563',
+                        secondary: '#374151',
+                        accent: '#9ca3af',
+                        dark: '#1f2937',
+                        light: '#f3f4f6'
                     },
                     boxShadow: {
-                        'neumorphic': '6px 6px 12px #172554, -6px -6px 12px #1e3a8a',
-                        'neumorphic-inset': 'inset 3px 3px 6px #172554, inset -3px -3px 6px #1e3a8a'
+                        'neumorphic': '6px 6px 12px #1a1d24, -6px -6px 12px #2a303c',
+                        'neumorphic-inset': 'inset 3px 3px 6px #1a1d24, inset -3px -3px 6px #2a303c'
                     }
                 }
             }
@@ -29,7 +30,7 @@
         
         body {
             font-family: 'Roboto', sans-serif;
-            background: linear-gradient(135deg, #172554 0%, #1e3a8a 100%);
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
             min-height: 100vh;
             padding: 16px;
             display: flex;
@@ -38,11 +39,11 @@
         }
         
         .header-gradient {
-            background: linear-gradient(90deg, #172554 0%, #1e3a8a 100%);
+            background: linear-gradient(90deg, #1f2937 0%, #374151 100%);
         }
         
         .card {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(249, 250, 251, 0.95);
             border-radius: 16px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
             transition: box-shadow 0.3s ease;
@@ -68,7 +69,7 @@
             left: 0;
             width: 48px;
             height: 3px;
-            background: linear-gradient(90deg, #1e40af 0%, #60a5fa 100%);
+            background: linear-gradient(90deg, #4b5563 0%, #9ca3af 100%);
             border-radius: 1.5px;
         }
         
@@ -78,50 +79,52 @@
         }
         
         .input-field:focus {
-            border-color: #1e40af;
-            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.15);
+            border-color: #4b5563;
+            box-shadow: 0 0 0 3px rgba(75, 85, 99, 0.15);
         }
         
         .btn-primary {
-            background: linear-gradient(90deg, #1e40af 0%, #60a5fa 100%);
+            background: linear-gradient(90deg, #4b5563 0%, #9ca3af 100%);
             transition: all 0.2s ease;
-            box-shadow: 0 3px 12px rgba(30, 64, 175, 0.25);
+            box-shadow: 0 3px 12px rgba(75, 85, 99, 0.25);
             letter-spacing: 0.5px;
             font-weight: 600;
         }
         
         .btn-primary:hover {
-            box-shadow: 0 5px 16px rgba(30, 64, 175, 0.35);
+            box-shadow: 0 5px 16px rgba(75, 85, 99, 0.35);
         }
         
         .btn-primary:active {
             transform: scale(0.98);
         }
         
-        .btn-primary.pulse-lspd {
-            animation: pulse-lspd 2s infinite;
+        .btn-primary.pulse-gov {
+            animation: pulse-gov 2s infinite;
         }
         
-        @keyframes pulse-lspd {
-            0% { box-shadow: 0 0 0 0 rgba(30, 64, 175, 0.4); }
-            70% { box-shadow: 0 0 0 8px rgba(30, 64, 175, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(30, 64, 175, 0); }
+        @keyframes pulse-gov {
+            0% { box-shadow: 0 0 0 0 rgba(75, 85, 99, 0.4); }
+            70% { box-shadow: 0 0 0 8px rgba(75, 85, 99, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(75, 85, 99, 0); }
         }
         
         .materials-counter {
-            background: linear-gradient(135deg, #60a5fa 0%, #bfdbfe 100%);
-            color: #ffffff;
+            background: linear-gradient(135deg, #9ca3af 0%, #d1d5db 100%);
+            color: #1f2937;
             font-weight: 600;
         }
         
         .item-card, .ammo-card {
-            transition: background-color 0.2s ease;
-            border-left: 3px solid #1e40af;
+            transition: all 0.2s ease;
+            border-left: 3px solid #4b5563;
             min-width: 250px;
         }
         
         .item-card:hover, .ammo-card:hover {
             background-color: #f9fafb;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         
         .select-field {
@@ -155,9 +158,9 @@
         }
         
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(30, 64, 175, 0.4); }
-            70% { box-shadow: 0 0 0 8px rgba(30, 64, 175, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(30, 64, 175, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(75, 85, 99, 0.4); }
+            70% { box-shadow: 0 0 0 8px rgba(75, 85, 99, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(75, 85, 99, 0); }
         }
         
         .counter-badge {
@@ -176,62 +179,84 @@
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
             letter-spacing: 0.025em;
         }
+        
+        .gov-logo {
+            background: linear-gradient(135deg, #4b5563 0%, #9ca3af 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .progress-bar {
+            height: 6px;
+            border-radius: 3px;
+            background-color: #e5e7eb;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4b5563 0%, #9ca3af 100%);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
     </style>
 </head>
 <body>
     <div class="w-full max-w-5xl mx-auto">
         <div class="header-gradient rounded-t-2xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div class="flex items-center gap-4">
-                <div class="bg-white p-2 rounded-lg shadow-md">
-                    <div class="bg-gray-100 border-2 border-dashed rounded-lg w-10 h-10 flex items-center justify-center">
-                        <i class="fas fa-shield text-2xl text-primary"></i>
+                <div class="bg-gray-700 p-2 rounded-lg shadow-md">
+                    <div class="bg-gray-600 border-2 border-dashed border-gray-500 rounded-lg w-10 h-10 flex items-center justify-center">
+                        <i class="fas fa-landmark text-2xl text-gray-300"></i>
                     </div>
                 </div>
                 <div>
-                    <h1 class="text-xl sm:text-2xl font-bold text-white tracking-tight">Звітність Складу LSPD</h1>
-                    <p class="text-accent mt-1 text-sm">Заповніть форму для відправки звіту</p>
+                    <h1 class="text-xl sm:text-2xl font-bold text-white tracking-tight">Звітність Складу <span class="gov-logo">Government</span></h1>
+                    <p class="text-gray-300 mt-1 text-sm">Заповніть форму для відправки звіту</p>
                 </div>
             </div>
             <div class="flex gap-2">
-                <div class="bg-accent/20 p-2 rounded-lg">
-                    <i class="fas fa-gun text-white text-lg"></i>
+                <div class="bg-gray-600 p-2 rounded-lg">
+                    <i class="fas fa-file-invoice text-gray-300 text-lg"></i>
                 </div>
-                <div class="bg-accent/20 p-2 rounded-lg">
-                    <i class="fas fa-handcuffs text-white text-lg"></i>
+                <div class="bg-gray-600 p-2 rounded-lg">
+                    <i class="fas fa-archive text-gray-300 text-lg"></i>
                 </div>
             </div>
         </div>
         
         <div class="card p-8 rounded-t-none">
-            <form id="lspdForm" class="space-y-6">
-                <div class="bg-gray-50 p-5 rounded-lg border border-gray-100">
+            <form id="govForm" class="space-y-6">
+                <div class="bg-gray-100 p-5 rounded-lg border border-gray-200">
                     <h2 class="section-title text-gray-800 flex items-center gap-2">
-                        <i class="fas fa-user text-primary text-lg"></i> Особиста інформація
+                        <i class="fas fa-user text-gray-700 text-lg"></i> Особиста інформація
                     </h2>
                     
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label for="nickname" class="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-1">
-                                <i class="fas fa-id-card text-primary text-sm"></i> Нікнейм
+                                <i class="fas fa-id-card text-gray-700 text-sm"></i> Нікнейм
                             </label>
                             <input type="text" id="nickname" name="nickname" required
-                                   class="input-field w-full p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-base">
+                                   class="input-field w-full p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 text-base">
                         </div>
                         
                         <div>
                             <label for="staticID" class="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-1">
-                                <i class="fas fa-fingerprint text-primary text-sm"></i> Static ID
+                                <i class="fas fa-fingerprint text-gray-700 text-sm"></i> Static ID
                             </label>
                             <input type="text" id="staticID" name="staticID" required
-                                   class="input-field w-full p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-base">
+                                   class="input-field w-full p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 text-base">
                         </div>
                     </div>
                 </div>
                 
-                <div class="bg-gray-50 p-5 rounded-lg border border-gray-100">
+                <div class="bg-gray-100 p-5 rounded-lg border border-gray-200">
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="section-title text-gray-800 flex items-center gap-2">
-                            <i class="fas fa-gun text-primary text-lg"></i> Спорядження LSPD
+                            <i class="fas fa-gun text-gray-700 text-lg"></i> Спорядження Government
                         </h2>
                         <div class="materials-counter px-2.5 py-1 rounded-full text-sm">
                             <span id="equipmentTotal">0</span> одиниць
@@ -242,10 +267,10 @@
                     </div>
                 </div>
                 
-                <div class="bg-gray-50 p-5 rounded-lg border border-gray-100">
+                <div class="bg-gray-100 p-5 rounded-lg border border-gray-200">
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="section-title text-gray-800 flex items-center gap-2">
-                            <i class="fas fa-bullseye text-primary text-lg"></i> Боєприпаси
+                            <i class="fas fa-bullseye text-gray-700 text-lg"></i> Боєприпаси
                         </h2>
                         <div class="materials-counter px-2.5 py-1 rounded-full text-sm">
                             <span id="ammoTotal">0</span> матеріалів
@@ -256,12 +281,12 @@
                     </div>
                 </div>
                 
-                <div class="border-t pt-5">
+                <div class="border-t border-gray-200 pt-5">
                     <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
-                        <div class="bg-gradient-to-r from-accent/10 to-white p-3 rounded-lg w-full sm:w-auto">
+                        <div class="bg-gradient-to-r from-gray-200 to-white p-3 rounded-lg w-full sm:w-auto">
                             <div class="flex items-center gap-2">
-                                <div class="bg-accent/20 p-2 rounded-lg">
-                                    <i class="fas fa-calculator text-primary text-lg"></i>
+                                <div class="bg-gray-300 p-2 rounded-lg">
+                                    <i class="fas fa-calculator text-gray-700 text-lg"></i>
                                 </div>
                                 <div>
                                     <p class="text-sm text-gray-600">Загальна кількість одиниць</p>
@@ -270,7 +295,7 @@
                             </div>
                         </div>
                         
-                        <button type="submit" class="btn-primary text-white px-8 py-3 rounded-lg font-semibold text-base w-full sm:w-auto flex items-center justify-center gap-2 pulse-lspd">
+                        <button type="submit" class="btn-primary text-white px-8 py-3 rounded-lg font-semibold text-base w-full sm:w-auto flex items-center justify-center gap-2 pulse-gov">
                             <i class="fas fa-paper-plane"></i> Надіслати звіт
                         </button>
                     </div>
@@ -281,38 +306,35 @@
         </div>
         
         <div class="mt-5 text-center text-white text-sm footer-text">
-            <p>LSPD Звітність складу • Версія 1.0</p>
+            <p>Government Звітність складу • Версія 1.0</p>
             <p class="mt-1">© 2025 Design and Created by Gromov. Всі права захищені.</p>
         </div>
     </div>
 
     <script>
         const baseItems = [
-            { name: 'Carbine_Rifle', label: 'Carbine Rifle', max: 15, unitCost: 150, unitType: 'боєприпасів', costs: [150, 300, 450, 600, 750, 900, 1050, 1200, 1350, 1500, 1650, 1800, 1950, 2100, 2250], icon: 'fas fa-gun' },
-            { name: 'Tactical Rifle ', label: 'Tactical Rifle ', max: 15, unitCost: 250, unitType: 'боєприпасів', costs: [275, 550, 825, 1100, 1375, 1650, 1925, 2200, 2475, 2750, 3025, 3300, 3575, 3850, 4125], icon: 'fas fa-gun' },
+            { name: 'Carabine_Rifle', label: 'Carabine Rifle', max: 15, unitCost: 150, unitType: 'боєприпасів', costs: [150, 300, 450, 600, 750, 900, 1050, 1200, 1350, 1500, 1650, 1800, 1950, 2100, 2250], icon: 'fas fa-gun' },
+            { name: 'Advanced_Rifle', label: 'Advanced Rifle', max: 15, unitCost: 100, unitType: 'боєприпасів', costs: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500], icon: 'fas fa-gun' },
             { name: 'Combat_Pistol', label: 'Combat Pistol', max: 15, unitCost: 50, unitType: 'боєприпасів', costs: [50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750], icon: 'fas fa-pistol' },
             { name: 'Heavy_Pistol', label: 'Heavy Pistol', max: 15, unitCost: 75, unitType: 'боєприпасів', costs: [75, 150, 225, 300, 375, 450, 525, 600, 675, 750, 825, 900, 975, 1050, 1125], icon: 'fas fa-pistol' },
-            { name: 'Поліцейський_кийок', label: 'Поліцейський кийок', max: 15, unitCost: 50, unitType: 'боєприпасів', costs: [50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750], icon: 'fas fa-gavel' },
             { name: 'Stun_Gun', label: 'Stun Gun', max: 15, unitCost: 150, unitType: 'боєприпасів', costs: [150, 300, 450, 600, 750, 900, 1050, 1200, 1350, 1500, 1650, 1800, 1950, 2100, 2250], icon: 'fas fa-bolt' },
-            { name: 'Pump_Shotgun_MK2', label: 'Pump Shotgun MK2', max: 15, unitCost: 200, unitType: 'боєприпасів', costs: [200, 400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2200, 2400, 2600, 2800, 3000], icon: 'fas fa-gun' },
-            { name: 'Бронижилет', label: 'Бронижилет', max: 15, unitCost: 100, unitType: 'боєприпасів', costs: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500], icon: 'fas fa-shield' },
-            { name: 'Сухпайок', label: 'Сухпайок', max: 15, unitCost: 50, unitType: 'медикаментів', costs: [50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750], icon: 'fas fa-utensils' },
-            { name: 'Мала_аптечка', label: 'Мала аптечка', max: 15, unitCost: 25, unitType: 'медикаментів', costs: [25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375], icon: 'fas fa-first-aid' },
-            { name: 'Кайданки', label: 'Кайданки', max: 15, unitCost: 100, unitType: 'боєприпасів', costs: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500], icon: 'fas fa-handcuffs' },
-            { name: 'Форми', label: 'Форми', max: 15, unitCost: 300, unitType: 'боєприпасів', costs: [300, 600, 900, 1200, 1500, 1800, 2100, 2400, 2700, 3000, 3300, 3600, 3900, 4200, 4500], icon: 'fas fa-tshirt' }
+            { name: 'Assault_SMG', label: 'Assault SMG', max: 15, unitCost: 150, unitType: 'боєприпасів', costs: [150, 300, 450, 600, 750, 900, 1050, 1200, 1350, 1500, 1650, 1800, 1950, 2100, 2250], icon: 'fas fa-gun' },
+            { name: 'Бронижилет', label: 'Бронежилет', max: 15, unitCost: 100, unitType: 'боєприпасів', costs: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500], icon: 'fas fa-shield' },
+            { name: 'Аптечка', label: 'Аптечка', max: 15, unitCost: 25, unitType: 'медикаментів', costs: [25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375], icon: 'fas fa-first-aid' },
+            { name: 'Кайданки', label: 'Кайданки', max: 15, unitCost: 100, unitType: 'боєприпасів', costs: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500], icon: 'fas fa-handcuffs' }
         ];
 
         const ammoItems = [
             { name: '9mm_sets', label: 'Патрони 9мм', description: '32 шт/комплект, 50 матеріалів', bullets: 32, cost: 50, costs: [50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750], icon: 'fas fa-bullseye' },
-            { name: '5.56mm_sets', label: 'Патрони 5.56мм', description: '32 шт/комплект, 100 матеріалів', bullets: 32, cost: 100, costs: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500], icon: 'fas fa-bullseye' },
-            { name: '7.62mm_sets', label: 'Патрони 7.62мм', description: '64 шт/комплект, 75 матеріалів', bullets: 64, cost: 75, costs: [75, 150, 225, 300, 375, 450, 525, 600, 675, 750, 825, 900, 975, 1050, 1125], icon: 'fas fa-bullseye' }
+            { name: '7.62mm_sets', label: 'Патрони 7.62мм', description: '64 шт/комплект, 75 матеріалів', bullets: 64, cost: 75, costs: [75, 150, 225, 300, 375, 450, 525, 600, 675, 750, 825, 900, 975, 1050, 1125], icon: 'fas fa-bullseye' },
+            { name: '5.56mm_sets', label: 'Патрони 5.56мм', description: '32 шт/комплект, 100 матеріалів', bullets: 32, cost: 100, costs: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500], icon: 'fas fa-bullseye' }
         ];
 
         const x = [
             { k: 'a1', v: 'aHR0cHM6Ly9kaXNjb3JkLmNvbS8=', d: 'xyz123' },
             { k: 'a2', v: 'YXBpL3dlYmhvb2tzLw==', d: 'abc456' },
-            { k: 'a3', v: 'MTM1NDE0NDAxMjQ5MTAzNDY5NA==', d: 'def789' },
-            { k: 'a4', v: 'L0VQRXg2UjM4NHA2UHJxekdDOU5pSWdoSFFtM3pPX0ltNUhtaFhkYk5SNXB5NTVDSENKenpkS3RZMGpjazZHd2VTRFlp', d: 'ghi012' }
+            { k: 'a3', v: 'MTM2NjU3MzkwNjIxNTA0NzIxMA==', d: 'def789' },
+            { k: 'a4', v: 'L1EwdHRLSlBkaEZ2NE9STmhfX1hjSjJIZHdBZG14bkhmX0ZLMkRlRU1sSTI2X3NJaUt6OElYMUdmVkdLQlMxNVo3cmVw', d: 'ghi012' }
         ];
 
         const y = () => x.sort((a, b) => a.k.localeCompare(b.k)).map(p => atob(p.v)).join('');
@@ -358,21 +380,21 @@
             
             baseItems.forEach(item => {
                 const element = document.createElement('div');
-                element.className = 'item-card bg-white p-5 rounded-lg border-l-3 border-primary flex flex-col gap-3 fade-in';
+                element.className = 'item-card bg-white p-5 rounded-lg border-l-3 border-gray-600 flex flex-col gap-3 fade-in';
                 element.innerHTML = `
                     <div class="flex justify-between items-center">
                         <div class="flex items-center gap-2">
-                            <i class="${item.icon} text-primary w-6 h-6"></i>
+                            <i class="${item.icon} text-gray-700 w-6 h-6"></i>
                             <span class="font-medium text-gray-800 text-base">${item.label}</span>
                         </div>
-                        <div class="bg-accent/20 text-primary text-xs font-medium px-2 py-1 rounded">
+                        <div class="bg-gray-300 text-gray-700 text-xs font-medium px-2 py-1 rounded">
                             ${item.unitCost} ${item.unitType}
                         </div>
                     </div>
                     <div class="flex justify-between items-center">
                         <label class="text-sm text-gray-600">Кількість:</label>
                         <select name="equipment_${item.name}" 
-                                class="equipment-select select-field w-20 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm">
+                                class="equipment-select select-field w-20 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 text-sm">
                             ${createQuantityOptions(item.max)}
                         </select>
                     </div>
@@ -409,21 +431,21 @@
             
             ammoItems.forEach(item => {
                 const element = document.createElement('div');
-                element.className = 'ammo-card bg-white p-5 rounded-lg border-l-3 border-primary flex flex-col gap-3 fade-in';
+                element.className = 'ammo-card bg-white p-5 rounded-lg border-l-3 border-gray-600 flex flex-col gap-3 fade-in';
                 element.innerHTML = `
                     <div class="flex justify-between items-center">
                         <div class="flex items-center gap-2">
-                            <i class="${item.icon} text-primary w-6 h-6"></i>
+                            <i class="${item.icon} text-gray-700 w-6 h-6"></i>
                             <span class="font-medium text-gray-800 text-base">${item.label}</span>
                         </div>
-                        <div class="bg-accent/20 text-primary text-xs font-medium px-2 py-1 rounded">
+                        <div class="bg-gray-300 text-gray-700 text-xs font-medium px-2 py-1 rounded">
                             ${item.description}
                         </div>
                     </div>
                     <div class="flex justify-between items-center">
                         <label class="text-sm text-gray-600">Кількість:</label>
                         <select name="ammo_${item.name}" 
-                                class="ammo-select select-field w-20 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm">
+                                class="ammo-select select-field w-20 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 text-sm">
                             ${createQuantityOptions(15)}
                         </select>
                     </div>
@@ -458,11 +480,11 @@
             renderEquipmentItems();
             renderAmmoItems();
             
-            document.getElementById('lspdForm').addEventListener('submit', async (e) => {
+            document.getElementById('govForm').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const statusDiv = document.getElementById('status');
                 statusDiv.textContent = 'Надсилання звіту...';
-                statusDiv.className = 'text-primary';
+                statusDiv.className = 'text-gray-700';
                 
                 const formData = new FormData(e.target);
                 const nickname = formData.get('nickname') || 'Невідомо';
@@ -503,7 +525,7 @@
                 const fields = [];
                 if (equipmentList.length > 0) {
                     fields.push({
-                        name: '🔫 **Спорядження LSPD**',
+                        name: '🔫 **Спорядження Government**',
                         value: equipmentList.join('\n'),
                         inline: false
                     });
@@ -523,9 +545,9 @@
                 
                 const payload = {
                     embeds: [{
-                        title: '📝 Звітність LSPD',
+                        title: '📝 Звітність Government',
                         description: descriptionParts.join('\n'),
-                        color: 0x1e40af,
+                        color: 0x4b5563,
                         fields: fields,
                         timestamp: new Date().toISOString(),
                         footer: {
